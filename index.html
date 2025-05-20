@@ -56,6 +56,18 @@
         .doc-button:hover {
             background-color: #1e40af;
         }
+        .doc-button-green {
+            background-color: #16a34a;
+        }
+        .doc-button-green:hover {
+            background-color: #15803d;
+        }
+        .doc-button-orange {
+            background-color: #ea580c;
+        }
+        .doc-button-orange:hover {
+            background-color: #c2410c;
+        }
         .scope-icon-container {
             position: absolute;
             top: 0.5rem; 
@@ -439,6 +451,7 @@
                 let iconBackground = 'bg-blue-100';
                 let iconColor = app.iconColor || 'text-blue-600';
                 let scopeIconHtml = '';
+                let docButtonClass = 'doc-button';
 
                 if (app.clientLourd) {
                     iconBackground = 'bg-orange-100';
@@ -450,6 +463,12 @@
                     scopeIconHtml = `<div class="scope-icon-container" aria-label="Application Locale" title="Application Locale (Île-de-France)"><i class="fas fa-map-pin text-green-600" aria-hidden="true"></i></div>`;
                 } else if (app.scope === 'national') {
                     scopeIconHtml = `<div class="scope-icon-container" aria-label="Application Nationale" title="Application Nationale"><i class="fas fa-flag text-blue-600" aria-hidden="true"></i></div>`;
+                }
+
+                if (iconColor.includes('green')) {
+                    docButtonClass += ' doc-button-green';
+                } else if (iconColor.includes('orange')) {
+                    docButtonClass += ' doc-button-orange';
                 }
 
                 const isValidUrl = app.url && !app.url.startsWith('#');
@@ -466,7 +485,7 @@
                         <!-- text-slate-400 (#94a3b8) on white gave a contrast ratio of ~2.56 -->
                         <!-- Changed to text-slate-600 (#475569) for a ratio >7 to meet RGAA -->
                         <p class="text-xs text-slate-600 mt-1">${app.category}</p>
-                        <span class="doc-button" role="button" tabindex="0">Documentation</span>
+                        <span class="${docButtonClass}" role="button" tabindex="0">Documentation</span>
                     </${tag}>
 `;
                 appsGrid.innerHTML += appCard;
