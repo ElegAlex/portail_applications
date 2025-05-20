@@ -153,3 +153,9 @@ Pour toute question, suggestion ou rapport de bug, veuillez contacter :
 ## 10. Licence
 
 Ce projet est distribué sous la licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
+
+## 11. Accessibilité
+
+### 11.1 Amélioration du contraste
+
+Les cartes d'application utilisaient la classe Tailwind `text-slate-400` pour afficher la catégorie sur fond blanc. Cette combinaison présentait un contraste d'environ 2,56:1, inférieur aux recommandations du RGAA. La classe a été remplacée par `text-slate-600` pour atteindre un contraste d'environ 7,58:1.
