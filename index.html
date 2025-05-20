@@ -447,8 +447,12 @@
                      scopeIconHtml = `<div class="scope-icon-container" aria-label="Application Nationale" title="Application Nationale"><i class="fas fa-flag text-blue-600" aria-hidden="true"></i></div>`;
                 }
 
+                const isValidUrl = app.url && !app.url.startsWith('#');
+                const tag = isValidUrl ? 'a' : 'div';
+                const hrefAttr = isValidUrl ? `href="${app.url}" target="_blank" rel="noopener noreferrer"` : '';
+                const tabAttr = isValidUrl ? '' : 'tabindex="0"';
                 const appCard = `
-                    <div class="app-card bg-white p-5 rounded-xl shadow-md hover:shadow-lg flex flex-col items-center text-center h-full ${app.url.startsWith('#') ? 'cursor-not-allowed opacity-70' : 'cursor-pointer'}" data-url="${app.url}" data-doc="${app.docUrl ? app.docUrl : 'docs/' + slugify(app.name) + '.html'}">
+                    <${tag} class="app-card bg-white p-5 rounded-xl shadow-md hover:shadow-lg flex flex-col items-center text-center h-full ${isValidUrl ? 'cursor-pointer' : 'cursor-not-allowed opacity-70'}" data-url="${app.url}" data-doc="${app.docUrl ? app.docUrl : 'docs/' + slugify(app.name) + '.html'}" ${hrefAttr} ${tabAttr}>
                         ${scopeIconHtml}
                         <div class="w-20 h-20 ${iconBackground} rounded-full flex items-center justify-center mb-5 text-3xl">
                             <i class="fas ${app.icon} ${iconColor}"></i>
@@ -456,8 +460,8 @@
                         <h3 class="text-lg font-semibold text-slate-700 mb-1 flex-grow">${app.name}</h3>
                         <p class="text-sm text-slate-500 mt-auto">${app.service}</p>
                         <p class="text-xs text-slate-400 mt-1">${app.category}</p>
-                        <button class="doc-button">Documentation</button>
-                    </div>
+                        <span class="doc-button" role="button" tabindex="0">Documentation</span>
+                    </${tag}>
 `;
                 appsGrid.innerHTML += appCard;
             });
@@ -470,11 +474,21 @@
             const cards = document.querySelectorAll('.app-card');
             cards.forEach(card => {
                 const url = card.getAttribute('data-url');
-                if (url && !url.startsWith('#')) {
+                const isDiv = card.tagName.toLowerCase() === 'div';
+                if (isDiv && url && !url.startsWith('#')) {
                     card.addEventListener('click', () => {
                         window.open(url, '_blank', 'noopener,noreferrer');
                     });
                 }
+                if (isDiv) {
+                    card.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            card.click();
+                        }
+                    });
+                }
+
                 const docBtn = card.querySelector('.doc-button');
                 if (docBtn) {
                     const docUrl = card.getAttribute('data-doc');
@@ -482,6 +496,12 @@
                         e.stopPropagation();
                         if (docUrl && !docUrl.startsWith('#')) {
                             window.open(docUrl, '_blank', 'noopener,noreferrer');
+                        }
+                    });
+                    docBtn.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            docBtn.click();
                         }
                     });
                 }
