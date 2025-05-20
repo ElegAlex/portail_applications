@@ -44,6 +44,18 @@
             border-color: #2563eb; 
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); 
         }
+        .doc-button {
+            margin-top: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            background-color: #2563eb;
+            color: #ffffff;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        .doc-button:hover {
+            background-color: #1e40af;
+        }
         .scope-icon-container {
             position: absolute;
             top: 0.5rem; 
@@ -372,6 +384,9 @@
         let currentSearchTerm = '';
         
         const globalCategoriesForServiceFilter = ["Ressources Humaines", "Communication"]; 
+        function slugify(text) {
+            return text.toString().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9_-]/g, '');
+        }
 
         // Fonction pour afficher les applications
         function renderApplications(appsToRender) {
@@ -396,8 +411,7 @@
                 }
 
                 const appCard = `
-                    <a href="${app.url.startsWith('#') ? 'javascript:void(0);' : app.url}" ${app.url.startsWith('#') ? '' : 'target="_blank" rel="noopener noreferrer"'} 
-                       class="app-card bg-white p-5 rounded-xl shadow-md hover:shadow-lg flex flex-col items-center text-center h-full ${app.url.startsWith('#') ? 'cursor-not-allowed opacity-70' : ''}">
+                    <div class="app-card bg-white p-5 rounded-xl shadow-md hover:shadow-lg flex flex-col items-center text-center h-full ${app.url.startsWith('#') ? 'cursor-not-allowed opacity-70' : 'cursor-pointer'}" data-url="${app.url}" data-doc="${app.docUrl ? app.docUrl : 'docs/' + slugify(app.name) + '.html'}">
                         ${scopeIconHtml}
                         <div class="w-20 h-20 ${iconBackground} rounded-full flex items-center justify-center mb-5 text-3xl">
                             <i class="fas ${app.icon} ${iconColor}"></i>
@@ -405,14 +419,38 @@
                         <h3 class="text-lg font-semibold text-slate-700 mb-1 flex-grow">${app.name}</h3>
                         <p class="text-sm text-slate-500 mt-auto">${app.service}</p>
                         <p class="text-xs text-slate-400 mt-1">${app.category}</p>
-                    </a>
-                `;
+                        <button class="doc-button">Documentation</button>
+                    </div>
+`;
                 appsGrid.innerHTML += appCard;
             });
+            setupAppCardEvents();
         }
 
         // Fonction pour appliquer le filtre actif et afficher les applications
-        function applyFiltersAndRender() {
+        
+        function setupAppCardEvents() {
+            const cards = document.querySelectorAll('.app-card');
+            cards.forEach(card => {
+                const url = card.getAttribute('data-url');
+                if (url && !url.startsWith('#')) {
+                    card.addEventListener('click', () => {
+                        window.open(url, '_blank');
+                    });
+                }
+                const docBtn = card.querySelector('.doc-button');
+                if (docBtn) {
+                    const docUrl = card.getAttribute('data-doc');
+                    docBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (docUrl && !docUrl.startsWith('#')) {
+                            window.open(docUrl, '_blank');
+                        }
+                    });
+                }
+            });
+        }
+function applyFiltersAndRender() {
             let appsToShow = [...applications];
             const searchTerm = currentSearchTerm.toLowerCase();
 
