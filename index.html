@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portail des Applications - DRSM IDF</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .app-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            border: 1px solid #e5e7eb;
+            position: relative;
+        }
+        .app-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.1), 0 5px 10px -6px rgba(0, 0, 0, 0.08);
+        }
+        .filter-button.active {
+            background-color: #DBEAFE; 
+            color: #2563EB; 
+            font-weight: 600; 
+        }
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        .search-bar-container {
+            padding-bottom: 1rem; 
+            padding-top: 0.5rem; 
+        }
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem; 
+            border: 1px solid #d1d5db; 
+            border-radius: 0.5rem; 
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); 
+        }
+        .search-input:focus {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            border-color: #2563eb; 
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); 
+        }
+        .scope-icon-container {
+            position: absolute;
+            top: 0.5rem; 
+            right: 0.5rem; 
+            width: 1.25rem; 
+            height: 1.25rem; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        html {
+            height: 100%;
+            overflow: hidden; 
+        }
+        body { 
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .page-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 100%; 
+        }
+        .page-header, .page-footer {
+            flex-shrink: 0; 
+        }
+        .content-area-wrapper { 
+            flex-grow: 1;
+            overflow: hidden; 
+            padding-top: 1rem; 
+            padding-bottom: 1rem; 
+        }
+        .content-columns-container { 
+            display: flex;
+            height: 100%; 
+            overflow: hidden; 
+        }
+        .filters-column { 
+            flex-shrink: 0; 
+            width: 25%; 
+            min-width: 280px; 
+            max-width: 350px; 
+            overflow-y: auto; 
+            padding-right: 1.5rem; 
+        }
+        .apps-column { 
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; 
+            padding-left: 1rem; 
+        }
+        .apps-grid-scrollable-container { 
+            flex-grow: 1;
+            overflow-y: auto; 
+            padding-top: 0.5rem; 
+        }
+
+        @media (max-width: 768px) { 
+            html, body {
+                height: auto; 
+                overflow: auto; 
+            }
+            .page-wrapper {
+                height: auto;
+            }
+            .content-area-wrapper {
+                 padding-top: 1rem;
+                 padding-bottom: 1rem;
+            }
+            .content-columns-container {
+                flex-direction: column;
+                height: auto; 
+                overflow: visible; 
+            }
+            .filters-column {
+                width: 100%;
+                max-width: none;
+                overflow-y: visible; 
+                padding-right: 0;
+                margin-bottom: 1.5rem; 
+            }
+            .apps-column {
+                overflow: visible; 
+                padding-left: 0;
+            }
+             .apps-grid-scrollable-container {
+                overflow-y: visible; 
+            }
+            .search-bar-container {
+                position: static; 
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+
+    <div class="page-wrapper">
+        <div class="bg-white py-3 px-6 shadow-sm page-header">
+            <div class="container mx-auto">
+                <img src="https://placehold.co/180x40/1E293B/FFFFFF?text=Logo+Assurance+Maladie" alt="Logo Organisme" class="h-8 md:h-9 top-banner-logo">
+            </div>
+        </div>
+
+        <header class="bg-blue-700 text-white py-4 px-6 shadow-lg page-header">
+            <div class="container mx-auto text-center">
+                <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">Portail des applications DRSM IDF</h1>
+            </div>
+        </header>
+
+        <div class="content-area-wrapper container mx-auto">
+            <div class="content-columns-container">
+                <aside class="filters-column bg-white rounded-xl shadow-md p-5"> 
+                    <h2 class="text-xl font-bold mb-5 text-slate-700 border-b border-slate-300 pb-3">Affectation</h2>
+                    
+                    <div class="mb-4">
+                        <button type="button" class="accordion-toggle w-full flex justify-between items-center text-left px-3 py-3 text-md font-semibold text-slate-700 rounded-lg hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" aria-expanded="false" aria-controls="services-filters-content">
+                            <span>Services ER</span>
+                            <i class="fas fa-chevron-down accordion-icon text-slate-500"></i> 
+                        </button>
+                        <div id="services-filters-content" class="accordion-content hidden mt-2 pl-3 border-l-2 border-blue-200 ml-2"> 
+                            <nav id="service-filter-menu" class="space-y-1 py-2"></nav>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <button type="button" class="accordion-toggle w-full flex justify-between items-center text-left px-3 py-3 text-md font-semibold text-slate-700 rounded-lg hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" aria-expanded="false" aria-controls="echelons-filters-content">
+                            <span>Échelons</span>
+                            <i class="fas fa-chevron-down accordion-icon text-slate-500"></i> 
+                        </button>
+                        <div id="echelons-filters-content" class="accordion-content hidden mt-2 pl-3 border-l-2 border-blue-200 ml-2"> 
+                            <nav id="echelon-filter-menu" class="space-y-1 py-2"></nav>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <button type="button" class="accordion-toggle w-full flex justify-between items-center text-left px-3 py-3 text-md font-semibold text-slate-700 rounded-lg hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" aria-expanded="false" aria-controls="categories-filters-content">
+                            <span>Catégories</span>
+                            <i class="fas fa-chevron-down accordion-icon text-slate-500"></i> 
+                        </button>
+                        <div id="categories-filters-content" class="accordion-content hidden mt-2 pl-3 border-l-2 border-blue-200 ml-2"> 
+                            <nav id="category-filter-menu" class="space-y-1 py-2"></nav>
+                        </div>
+                    </div>
+                </aside>
+
+                <div class="apps-column"> 
+                    <div class="search-bar-container sticky top-0 bg-slate-100 z-10"> 
+                        <input type="search" id="search-input" placeholder="Rechercher une application..." class="search-input">
+                    </div>
+                    <main id="apps-grid-container" class="apps-grid-scrollable-container"> 
+                        <div id="apps-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6">
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </div>
+
+        <footer class="bg-slate-700 text-slate-300 py-4 px-6 text-center page-footer">  
+            <div class="container mx-auto">
+                <p class="text-xs">&copy; <span id="currentYear"></span> DRSM IDF - Tous droits réservés.</p>
+            </div>
+        </footer>
+    </div> 
+
+    <script>
+        // --- Données finales et consolidées des applications ---
+        const applications = [
+            { id: 1, name: "ADAGES", url: "http://adages-prod.cnamts.fr/adagesprd/", service: "À définir", category: "Archivage", echelon: "À définir", icon: "fa-archive", iconColor: "text-blue-600", scope: "national" },
+            { id: 2, name: "ADONIS", url: "http://adonis.cnamts.fr/", service: "À définir", category: "Documentation", echelon: "À définir", icon: "fa-book", iconColor: "text-blue-600", scope: "national" },
+            { id: 3, name: "AERO CNAMTS", url: "http://www.aero.cnamts.fr/", service: "À définir", category: "Transport", echelon: "À définir", icon: "fa-plane", iconColor: "text-blue-600", scope: "national" },
+            { id: 4, name: "AGATE", url: "https://agate.cnamts.fr/agate/", service: "À définir", category: "Gestion", echelon: "À définir", icon: "fa-child", iconColor: "text-blue-600", scope: "national" },
+            { id: 5, name: "AGENA", url: "http://agena.drsm-sudest.ramage/", service: "À définir", category: "À définir", echelon: "À définir", icon: "fa-link", iconColor: "text-blue-600", scope: "local" },
+            { id: 6, name: "AGENA", url: "http://agena.ersm-sudest.cnamts.fr/", service: "À définir", category: "À définir", echelon: "À définir", icon: "fa-link", iconColor: "text-blue-600", scope: "local" },
+            { id: 7, name: "AGORA", url: "http://agora.cnamts.fr/agora/", service: "À définir", category: "Suivi", echelon: "À définir", icon: "fa-tasks", iconColor: "text-blue-600", scope: "national" },
+            { id: 8, name: "AIFE", url: "https://portail.aife.economie.gouv.fr/", service: "À définir", category: "Finances", echelon: "À définir", icon: "fa-landmark", iconColor: "text-blue-600", scope: "national" },
+            { id: 9, name: "ALADIN", url: "http://aladin.ersm-idf.cnamts.fr/", service: "À définir", category: "Décisionnel", echelon: "À définir", icon: "fa-lightbulb", iconColor: "text-blue-600", scope: "local" },
+            { id: 10, name: "ALIENORH", url: "http://alienorh.cnamts.fr/index.php", service: "À définir", category: "Ressources Humaines", echelon: "À définir", icon: "fa-user-tie", iconColor: "text-blue-600", scope: "national" },
+            { id: 11, name: "AMADEUS", url: "https://amadeus.cnamts.fr/amadeus/", service: "À définir", category: "Gestion", echelon: "À définir", icon: "fa-users-cog", iconColor: "text-blue-600", scope: "national" },
+            { id: 12, name: "AMELI RESEAU", url: "https://ameli-reseau.cnamts.fr/", service: "À définir", category: "Ressources Nationales", echelon: "À définir", icon: "fa-sitemap", iconColor: "text-blue-600", scope: "national" },
+            { id: 13, name: "AMELI.fr", url: "http://www.ameli.fr/", service: "À définir", category: "Ressources Nationales", echelon: "À définir", icon: "fa-heartbeat", iconColor: "text-blue-600", scope: "national" },
+            { id: 14, name: "ANIS", url: "http://anis.cnamts.fr/anis-ihm/", service: "À définir", category: "Référentiel", echelon: "À définir", icon: "fa-building", iconColor: "text-blue-600", scope: "national" },
+            { id: 15, name: "ANNABELLE", url: "http://annabelle.cnamts.fr/", service: "À définir", category: "Annuaire", echelon: "À définir", icon: "fa-address-book", iconColor: "text-blue-600", scope: "national" },
+            { id: 16, name: "ARPEGE", url: "http://arpege.cnamts.fr/arpege-ihm/", service: "À définir", category: "Gestion", echelon: "À définir", icon: "fa-exchange-alt", iconColor: "text-blue-600", scope: "national" },
+            { id: 17, name: "ARSENE", url: "http://www.arsene.cnamts.fr/", service: "À définir", category: "Référentiel", echelon: "À définir", icon: "fa-book-medical", iconColor: "text-blue-600", scope: "national" },
+            { id: 18, name: "BIRD", url: "http://bird.cnamts.fr/bird/", service: "À définir", category: "Informatique", echelon: "À définir", icon: "fa-bug", iconColor: "text-blue-600", scope: "national" },
+            { id: 19, name: "BO XI", url: "http://bo.cnamts.fr/BOE/BI", service: "À définir", category: "Décisionnel", echelon: "À définir", icon: "fa-chart-pie", iconColor: "text-blue-600", scope: "national" },
+            { id: 20, name: "Brm", url: "http://brm.ersm-idf.cnamts.fr/", service: "CCX", category: "Documentation", echelon: "À définir", icon: "fa-book-reader", iconColor: "text-blue-600", scope: "local" },
+            { id: 21, name: "CAFEIN", url: "http://cafein.cnamts.fr/", service: "À définir", category: "Formation", echelon: "À définir", icon: "fa-coffee", iconColor: "text-blue-600", scope: "national" },
+            { id: 22, name: "Calculette", url: "http://calculette.ersm-idf.cnamts.fr/", service: "CCX", category: "Outil Technique", echelon: "À définir", icon: "fa-calculator", iconColor: "text-blue-600", scope: "local" },
+            { id: 23, name: "CAMPUS", url: "http://interops.cnamts.fr:20004/BY_J/services/osmose", service: "À définir", category: "Ressources Humaines", echelon: "À définir", icon: "fa-graduation-cap", iconColor: "text-blue-600", scope: "national" },
+            { id: 24, name: "Cartosmi", url: "http://cartosmi.drsm-idf.ramage/", service: "MRA PILOTAGE", category: "Pilotage", echelon: "À définir", icon: "fa-sitemap", iconColor: "text-blue-600", scope: "local" },
+            { id: 25, name: "CCMRA", url: "#ccmra", service: "CMRA", category: "Juridique", echelon: "À définir", icon: "fa-gavel", iconColor: "text-blue-600", scope: "local" }, 
+            { id: 26, name: "CHORUS", url: "https://portailagent.chorus.finances.ader.gouv.fr/", service: "À définir", category: "Finances", echelon: "À définir", icon: "fa-file-invoice-dollar", iconColor: "text-blue-600", scope: "national" },
+            { id: 27, name: "CICERON", url: "http://ciceron.cnamts.fr/", service: "À définir", category: "Documentation", echelon: "À définir", icon: "fa-book-reader", iconColor: "text-blue-600", scope: "national" },
+            { id: 28, name: "ClicS", url: "http://www.clics.ameli.fr/", service: "À définir", category: "Santé", echelon: "À définir", icon: "fa-notes-medical", iconColor: "text-blue-600", scope: "national" },
+            { id: 29, name: "Cloe", url: "http://cloeprod.cnamts.fr:14102/home", service: "À définir", category: "Communication", echelon: "À définir", icon: "fa-bullhorn", iconColor: "text-blue-600", scope: "national" },
+            { id: 30, name: "COCONUT", url: "http://coconut.cnamts.fr/coconut-ihm/", service: "À définir", category: "Consultation", echelon: "À définir", icon: "fa-id-card", iconColor: "text-blue-600", scope: "national" },
+            { id: 31, name: "CONSO ALD", url: "https://consoaldsf.ersm-idf.cnamts.fr/", service: "EAS", category: "Métier", echelon: "À définir", icon: "fa-notes-medical", iconColor: "text-blue-600", scope: "local" },
+            { id: 32, name: "CONSO IJ", url: "https://cpr2aconso.ersm-idf.cnamts.fr/", service: "EAS", category: "Métier", echelon: "À définir", icon: "fa-hand-holding-usd", iconColor: "text-blue-600", scope: "local" },
+            { id: 33, name: "Consoconvoques", url: "http://consoconvoques.ersm-idf.cnamts.fr/", service: "EAS", category: "Planification", echelon: "À définir", icon: "fa-calendar-check", iconColor: "text-blue-600", scope: "local" },
+            { id: 34, name: "Convoques", url: "http://convoques.ersm-idf.cnamts.fr/", service: "EAS", category: "Planification", echelon: "À définir", icon: "fa-calendar-check", iconColor: "text-blue-600", scope: "local" },
+            { id: 35, name: "Convoquesv2", url: "http://convoquesv2.ersm-idf.cnamts.fr/", service: "EAS", category: "Planification", echelon: "À définir", icon: "fa-calendar-check", iconColor: "text-blue-600", scope: "local" },
+            { id: 36, name: "Contact COVID Caisse", url: "https://tracking-prod.digital.cnamts.fr/caisse/", service: "À définir", category: "À définir", echelon: "À définir", icon: "fa-virus", iconColor: "text-blue-600", scope: "national" },
+            { id: 37, name: "CRISTAL", url: "http://cristal.cnamts.fr/cristal-ihm/", service: "À définir", category: "Santé", echelon: "À définir", icon: "fa-file-medical-alt", iconColor: "text-blue-600", scope: "national" },
+            { id: 38, name: "Cs", url: "http://cs.ersm-idf.cnamts.fr/", service: "EAS", category: "Outil", echelon: "À définir", icon: "fa-tools", iconColor: "text-blue-600", scope: "local" },
+            { id: 39, name: "CTRL X", url: "#ctrl-x", service: "CCX", category: "Juridique", echelon: "À définir", icon: "fa-gavel", iconColor: "text-blue-600", scope: "local" },
+            { id: 40, name: "DAT - net entreprises", url: "http://www.net-entreprises.fr/", service: "À définir", category: "À définir", echelon: "À définir", icon: "fa-globe", iconColor: "text-blue-600", scope: "national" },
+            { id: 41, name: "Decli", url: "http://decli.ersm-idf.cnamts.fr/", service: "GRC", category: "Sécurité", echelon: "À définir", icon: "fa-flag", iconColor: "text-blue-600", scope: "local" }, 
+            { id: 42, name: "Dem-achat", url: "http://dem-achat.ersm-idf.cnamts.fr/", service: "USGF", category: "Achats", echelon: "À définir", icon: "fa-shopping-basket", iconColor: "text-blue-600", scope: "local" },
+            { id: 43, name: "Demdev", url: "http://demdev.ersm-idf.cnamts.fr/", service: "SI", category: "Informatique", echelon: "À définir", icon: "fa-code-branch", iconColor: "text-blue-600", scope: "local" },
+            { id: 44, name: "DIADEME V5", url: "https://taskspace.diademe.cestif.cnamts.fr:6200/L7_J/?appname=diademe", service: "À définir", category: "Métier", echelon: "À définir", icon: "fa-folder-open", iconColor: "text-blue-600", scope: "national" },
+            { id: 45, name: "DIAGRAMES", url: "http://diagrames.cti-raa.cnamts.fr/", service: "À définir", category: "À définir", echelon: "À définir", icon: "fa-project-diagram", iconColor: "text-blue-600", scope: "national" },
+            { id: 46, name: "DORA", url: "http://dora.cnamts.fr/dora/", service: "À définir", category: "Décisionnel", echelon: "À définir", icon: "fa-database", iconColor: "text-blue-600", scope: "national" },
+            { id: 47, name: "DST", url: "https://dst.ersm-idf.cnamts.fr/programme.php", service: "EAS", category: "Sécurité", echelon: "À définir", icon: "fa-shield-alt", iconColor: "text-blue-600", scope: "local" },
+            { id: 48, name: "e-PIC", url: "http://epic.cnamts.fr/epic-ihm/", service: "À définir", category: "Comptabilité", echelon: "À définir", icon: "fa-calculator", iconColor: "text-blue-600", scope: "national" },
+            { id: 49, name: "e-PMSI", url: "https://www.epmsi.atih.sante.fr/", service: "À définir", category: "À définir", echelon: "À définir", icon: "fa-hospital-user", iconColor: "text-blue-600", scope: "national" },
+            { id: 50, name: "Easstore", url: "http://easstore.ersm-idf.cnamts.fr/", service: "EAS", category: "À définir", echelon: "À définir", icon: "fa-store", iconColor: "text-blue-600", scope: "local" },
+            { id: 51, name: "eINCOVAR", url: "http://55.169.64.182/incotec/eincovar/indexnet.htm", service: "À définir", category: "Ressources Humaines", echelon: "À définir", icon: "fa-file-invoice-dollar", iconColor: "text-blue-600", scope: "national" }, 
+            { id: 52, name: "Enqinval", url: "http://enqinval.drsm-idf.ramage/", service: "INVAL", category: "Santé Social", echelon: "À définir", icon: "fa-file-medical", iconColor: "text-blue-600", scope: "local" },
+            { id: 53, name: "Entretiencd", url: "http://entretiencd.ersm-idf.cnamts.fr/", service: "PGAP - GPEC", category: "Ressources Humaines", echelon: "À définir", icon: "fa-comments", iconColor: "text-blue-600", scope: "local" },
+            { id: 54, name: "EOPPS", url: "https://www.eopps.fr/", service: "À définir", category: "À définir", echelon: "À définir", icon: "fa-external-link-alt", iconColor: "text-blue-600", scope: "national" },
+            { id: 55, name: "Faqccam", url: "http://faqccam.ersm-idf.cnamts.fr/", service: "AOS", category: "Documentation", echelon: "À définir", icon: "fa-question-circle", iconColor: "text-blue-600", scope: "local" },
+            { id: 56, name: "FLUX RSS", url: "http://www.ameli.fr/fileadmin/user_upload/rss/rss_cpam_75.xml", service: "À définir", category: "Information", echelon: "À définir", icon: "fa-rss", iconColor: "text-blue-600", scope: "national" },
+            { id: 57, name: "Gasper", url: "http://gasper.ersm-idf.cnamts.fr/", service: "GPEC", category: "Ressources Humaines", echelon: "À définir", icon: "fa-user-edit", iconColor: "text-blue-600", scope: "local" },
+            { id: 58, name: "Gdal", url: "http://gdal.ersm-idf.cnamts.fr/", service: "SSI", category: "Sécurité", echelon: "À définir", icon: "fa-key", iconColor: "text-blue-600", scope: "local" },
+            { id: 59, name: "GED", url: "http://ged.cnamts.fr/ged/", service: "À définir", category: "Documentation", echelon: "À définir", icon: "fa-folder", iconColor: "text-blue-600", scope: "national" },
+            { id: 60, name: "Gesmouv", url: "http://gesmouv.ersm-idf.cnamts.fr/", service: "PGAP", category: "Ressources Humaines", echelon: "À définir", icon: "fa-user-clock", iconColor: "text-blue-600", scope: "local" },
+            { id: 61, name: "Gesprat", url: "http://gesprat.ersm-idf.cnamts.fr/", service: "GPEC – DRHR CNAM", category: "Ressources Humaines", echelon: "À définir", icon: "fa-user-md", iconColor: "text-blue-600", scope: "local" },
+            { id: 62, name: "GINKO", url: "http://ginko.cnamts.fr/ginko-ihm/", service: "À définir", category: "Gestion d'incidents", echelon: "À définir", icon: "fa-exclamation-triangle", iconColor: "text-blue-600", scope: "national" },
+            { id: 63, name: "GRACE", url: "http://grace.cnamts.fr/grace-ihm/", service: "À définir", category: "Relation Client", echelon: "À définir", icon: "fa-envelope-open-text", iconColor: "text-blue-600", scope: "national" },
+            { id: 64, name: "GRCEAS", url: "#grceas", service: "EAS", category: "Demande", echelon: "À définir", icon: "fa-chart-line", iconColor: "text-blue-600", scope: "local" },
+            { id: 65, name: "i.DeC", url: "http://idec.ersm-idf.cnamts.fr/flam/SecuServlet", service: "À définir", category: "À définir", echelon: "À définir", icon: "fa-shield-alt", iconColor: "text-blue-600", scope: "local" },
+            { id: 66, name: "i.DeC Accueil", url: "https://idec.ramage:20418/idec/?version=300000", service: "À définir", category: "Accueil", echelon: "À définir", icon: "fa-concierge-bell", iconColor: "text-blue-600", scope: "local" },
+            { id: 67, name: "IDP", url: "#idp", service: "DOC", category: "Documentation", echelon: "À définir", icon: "fa-folder-open", iconColor: "text-blue-600", scope: "local" },
+            { id: 68, name: "Ijlongue", url: "http://ijlongue.ersm-idf.cnamts.fr/", service: "EAS", category: "Métier", echelon: "À définir", icon: "fa-file-invoice-dollar", iconColor: "text-blue-600", scope: "local" },
+            { id: 69, name: "IMAGE", url: "http://image.crip.cnamts.fr:7350/image/", service: "À définir", category: "Métier", echelon: "À définir", icon: "fa-images", iconColor: "text-blue-600", scope: "national" },
+            { id: 70, name: "Incivilites", url: "http://incivilites.ersm-idf.cnamts.fr/", service: "GRC", category: "Sécurité", echelon: "À définir", icon: "fa-eye", iconColor: "text-blue-600", scope: "local" },
+            { id: 71, name: "Infomi", url: "http://infomi.ersm-idf.cnamts.fr/", service: "SI", category: "Informatique", echelon: "À définir", icon: "fa-network-wired", iconColor: "text-blue-600", scope: "local" },
+            { id: 72, name: "Inventaire", url: "http://inventaire.ersm-idf.cnamts.fr/", service: "USGF", category: "Gestion", echelon: "À définir", icon: "fa-boxes", iconColor: "text-blue-600", scope: "local" },
+            { id: 73, name: "Iqn", url: "http://iqn.ersm-idf.cnamts.fr/", service: "DOC", category: "Qualité", echelon: "À définir", icon: "fa-award", iconColor: "text-blue-600", scope: "local" },
+            { id: 74, name: "IRIS", url: "http://iris.cnamts.fr/iris-ihm/", service: "À définir", category: "Référentiel", echelon: "À définir", icon: "fa-database", iconColor: "text-blue-600", scope: "national" },
+            { id: 75, name: "JERESERVE", url: "#jereserve", service: "USGF", category: "Logistique", echelon: "À définir", icon: "fa-car", iconColor: "text-blue-600", scope: "local" },
+            { id: 76, name: "Limesurvey", url: "#limesurvey", service: "SI", category: "Enquête", echelon: "À définir", icon: "fa-poll", iconColor: "text-blue-600", scope: "local" },
+            { id: 77, name: "LM2A-CESTIF", url: "http://lm2a-drsm911.cestif.cnamts.fr/IhmLZ", service: "À définir", category: "À définir", echelon: "À définir", icon: "fa-link", iconColor: "text-blue-600", scope: "national" },
+            { id: 78, name: "LM2A-CRIP", url: "https://lm2a.crip.presta.ramage/IhmLZ/", service: "À définir", category: "À définir", echelon: "À définir", icon: "fa-link", iconColor: "text-blue-600", scope: "local" },
+            { id: 79, name: "Logisidep", url: "http://logisidep.drsm-idf.ramage/", service: "SIDEP", category: "Métier", echelon: "À définir", icon: "fa-vial", iconColor: "text-blue-600", scope: "local" },
+            { id: 80, name: "MATIS", url: "https://portailagent.cnamts.fr:20159/PADK-app/#/", service: "À définir", category: "À définir", echelon: "À définir", icon: "fa-user-shield", iconColor: "text-blue-600", scope: "national" },
+            { id: 81, name: "MEDI@M", url: "http://www.mediam.cnamts.fr/", service: "À définir", category: "À définir", echelon: "À définir", icon: "fa-newspaper", iconColor: "text-blue-600", scope: "national" },
+            { id: 82, name: "MEDIALOG+", url: "https://medialogplus.cnamts.fr:7301/MEFC_X/accueilMenu.go", service: "À définir", category: "Relation Client", echelon: "À définir", icon: "fa-comments", iconColor: "text-blue-600", scope: "national" },
+            { id: 83, name: "MGAP", url: "#mgap", service: "PGAP", category: "Support", echelon: "À définir", icon: "fa-ticket-alt", iconColor: "text-blue-600", scope: "local" },
+            { id: 84, name: "Mirpa", url: "http://mirpa.ersm-idf.cnamts.fr/", service: "GPEC", category: "Ressources Humaines", echelon: "À définir", icon: "fa-users", iconColor: "text-blue-600", scope: "local" },
+            { id: 85, name: "Mirpc", url: "http://mirpc.ersm-idf.cnamts.fr/", service: "GPEC", category: "Ressources Humaines", echelon: "À définir", icon: "fa-users", iconColor: "text-blue-600", scope: "local" },
+            { id: 86, name: "Molecules", url: "http://molecules.ersm-idf.cnamts.fr/", service: "À définir", category: "Recherche", echelon: "À définir", icon: "fa-flask", iconColor: "text-blue-600", scope: "local" },
+            { id: 87, name: "MSAP", url: "http://applications.cpam-paris.cnamts.fr/msap/menu_choix.php", service: "À définir", category: "Relation Client", echelon: "À définir", icon: "fa-headset", iconColor: "text-blue-600", scope: "national" },
+            { id: 88, name: "OCEAN", url: "http://ocean.cnamts.fr/ocean-ihm/", service: "À définir", category: "Négociation", echelon: "À définir", icon: "fa-handshake", iconColor: "text-blue-600", scope: "national" },
+            { id: 89, name: "Ocmg", url: "http://ocmg.ersm-idf.cnamts.fr/", service: "EAS", category: "Outil", echelon: "À définir", icon: "fa-bullseye", iconColor: "text-blue-600", scope: "local" },
+            { id: 90, name: "OGECA", url: "#ogeca", service: "MSSI", category: "Sécurité", echelon: "À définir", icon: "fa-id-badge", iconColor: "text-blue-600", scope: "local" },
+            { id: 91, name: "OPALE", url: "http://opale.cnamts.fr/opale-ihm/", service: "À définir", category: "Pilotage", echelon: "À définir", icon: "fa-binoculars", iconColor: "text-blue-600", scope: "national" },
+            { id: 92, name: "OpenDoc", url: "#opendoc", service: "DOC", category: "Documentation", echelon: "À définir", icon: "fa-folder-open", iconColor: "text-blue-600", scope: "local" },
+            { id: 93, name: "ORPHEE", url: "http://orphee.cnamts.fr/orphee-ihm/", service: "À définir", category: "Référentiel", echelon: "À définir", icon: "fa-user-md", iconColor: "text-blue-600", scope: "national" },
+            { id: 94, name: "OSCARR", url: "https://oscarr-p25.ramage/RH_J/", service: "À définir", category: "Ressources Humaines", echelon: "À définir", icon: "fa-users-cog", iconColor: "text-blue-600", scope: "local" },
+            { id: 95, name: "OSIRIS 2", url: "http://lxplc54.cramif.cnamts.fr/osiris/php/index.php?page=reservation", service: "À définir", category: "À définir", echelon: "À définir", icon: "fa-calendar-check", iconColor: "text-blue-600", scope: "national" },
+            { id: 96, name: "Paracelse-covid", url: "http://paracelse-covid.drsm-idf.ramage/", service: "CRRMP", category: "Santé", echelon: "À définir", icon: "fa-notes-medical", iconColor: "text-blue-600", scope: "local" },
+            { id: 97, name: "PEGASE", url: "http://pegase.cnamts.fr/pegase-ihm/", service: "À définir", category: "Portail", echelon: "À définir", icon: "fa-desktop", iconColor: "text-blue-600", scope: "national" },
+            { id: 98, name: "Petra Ameli.fr", url: "https://petra.ameli.fr/", service: "À définir", category: "Métier", echelon: "À définir", icon: "fa-mouse-pointer", iconColor: "text-blue-600", scope: "national" },
+            { id: 99, name: "PICO", url: "http://pico.cnamts.fr/pico-ihm/", service: "À définir", category: "Pilotage", echelon: "À définir", icon: "fa-certificate", iconColor: "text-blue-600", scope: "national" },
+            { id: 100, name: "PORTAIL Achat Public", url: "https://www.marches-publics.gouv.fr/", service: "À définir", category: "Achats", echelon: "À définir", icon: "fa-shopping-cart", iconColor: "text-blue-600", scope: "national" },
+            { id: 101, name: "Portail de la Fonction Publique", url: "http://www.fonction-publique.gouv.fr/", service: "À définir", category: "Ressources Publiques", echelon: "À définir", icon: "fa-landmark", iconColor: "text-blue-600", scope: "national" },
+            { id: 102, name: "PORTAIL SNIIR-AM", url: "http://portail2.sniiram.cnamts.fr/pls/portal", service: "À définir", category: "À définir", echelon: "À définir", icon: "fa-server", iconColor: "text-blue-600", scope: "national" },
+            { id: 103, name: "PRELUDE", url: "http://prelude.cnamts.fr/prelude-ihm/", service: "À définir", category: "Déclarations", echelon: "À définir", icon: "fa-file-signature", iconColor: "text-blue-600", scope: "national" },
+            { id: 104, name: "PRODIJ", url: "https://prodij.ersm-idf.cnamts.fr/", service: "À définir", category: "À définir", echelon: "À définir", icon: "fa-link", iconColor: "text-blue-600", scope: "local" },
+            { id: 105, name: "PROFIL", url: "http://profil.cnamts.fr/profil-ihm/", service: "À définir", category: "Production", echelon: "À définir", icon: "fa-file-alt", iconColor: "text-blue-600", scope: "national" },
+            { id: 106, name: "PYTHEAS", url: "https://pytheas.cnamts.fr/pytheas-portal/", service: "À définir", category: "Sécurité", echelon: "À définir", icon: "fa-shield-alt", iconColor: "text-blue-600", scope: "national" },
+            { id: 107, name: "QUADRI NEW", url: "#quadri-new", service: "SI", category: "Planification", echelon: "À définir", icon: "fa-calendar-alt", iconColor: "text-blue-600", scope: "local" },
+            { id: 108, name: "Quadri-pfsr", url: "http://quadri-pfsr.drsm-idf.ramage/", service: "PFSR", category: "Planification", echelon: "À définir", icon: "fa-calendar-alt", iconColor: "text-blue-600", scope: "local" },
+            { id: 109, name: "QUID", url: "http://quid.noprox.cestif.cnamts.fr/qdp40/index.html", service: "À définir", category: "Pilotage", echelon: "À définir", icon: "fa-compass", iconColor: "text-blue-600", scope: "national" },
+            { id: 110, name: "QUID_PRADO", url: "http://quid.cen.cnamts.fr/qdp00/index.html", service: "À définir", category: "Pilotage", echelon: "À définir", icon: "fa-database", iconColor: "text-blue-600", scope: "national" },
+            { id: 111, name: "Quidald", url: "http://quidald.ersm-idf.cnamts.fr/", service: "Pilotage", category: "Décisionnel", echelon: "À définir", icon: "fa-search-plus", iconColor: "text-blue-600", scope: "local" },
+            { id: 112, name: "REFLET", url: "http://reflet.cnamts.fr/reflet-ihm/", service: "À définir", category: "Référentiel", echelon: "À définir", icon: "fa-building", iconColor: "text-blue-600", scope: "national" },
+            { id: 113, name: "Registre", url: "http://registre.ersm-idf.cnamts.fr/", service: "MSSI", category: "Sécurité", echelon: "À définir", icon: "fa-book-user", iconColor: "text-blue-600", scope: "local" },
+            { id: 114, name: "RFI", url: "http://rfi.rg.cen.cnamts.fr:20101/rfi/?version=300000", service: "À définir", category: "À définir", echelon: "À définir", icon: "fa-link", iconColor: "text-blue-600", scope: "national" },
+            { id: 115, name: "ROLAPE", url: "https://rolape.ersm-idf.cnamts.fr/programme.php", service: "À définir", category: "À définir", echelon: "À définir", icon: "fa-link", iconColor: "text-blue-600", scope: "local" },
+            { id: 116, name: "RPPS", url: "http://interops.cnamts.fr:20004/BY_J/services/rpps", service: "À définir", category: "À définir", echelon: "À définir", icon: "fa-id-card", iconColor: "text-blue-600", scope: "national" },
+            { id: 117, name: "S@M Local", url: "http://www.support-national.cnamts.fr/", service: "À définir", category: "Informatique", echelon: "À définir", icon: "fa-life-ring", iconColor: "text-blue-600", scope: "national" },
+            { id: 118, name: "SDS Index", url: "http://sdsindex.ersm-idf.cnamts.fr/programme.php", service: "CEPRA", category: "Métier", echelon: "À définir", icon: "fa-search", iconColor: "text-blue-600", scope: "local" },
+            { id: 119, name: "SEPAGES", url: "http://sepages.cnamts.fr/sepages-ihm/", service: "À définir", category: "Pilotage", echelon: "À définir", icon: "fa-chart-line", iconColor: "text-blue-600", scope: "national" },
+            { id: 120, name: "SERENADE", url: "http://serenade.cnamts.fr/serenade-ihm/", service: "À définir", category: "Déclarations", echelon: "À définir", icon: "fa-file-invoice", iconColor: "text-blue-600", scope: "national" },
+            { id: 121, name: "SIERRA", url: "http://sierra.cnamts.fr/sierra-ihm/", service: "À définir", category: "Risques", echelon: "À définir", icon: "fa-car-crash", iconColor: "text-blue-600", scope: "national" },
+            { id: 122, name: "SIRAH", url: "http://sirah.cnamts.fr/sirah-ihm/", service: "À définir", category: "Ressources Humaines", echelon: "À définir", icon: "fa-users-cog", iconColor: "text-blue-600", scope: "national" },
+            { id: 123, name: "SIRCE", url: "http://sirce.cnamts.fr/sirce-ihm/", service: "À définir", category: "Finances", echelon: "À définir", icon: "fa-credit-card", iconColor: "text-blue-600", scope: "national" },
+            { id: 124, name: "Sos", url: "http://sos.drsm-idf.ramage/", service: "SI", category: "Informatique", echelon: "À définir", icon: "fa-cog", iconColor: "text-blue-600", scope: "local" },
+            { id: 125, name: "SYNERGIE", url: "http://synergie.cnamts.fr/synergie-ihm/", service: "À définir", category: "Ressources Humaines", echelon: "À définir", icon: "fa-users", iconColor: "text-blue-600", scope: "national" },
+            { id: 126, name: "TBALD", url: "https://tbald.ersm-sudest.cnamts.fr/index.php", service: "À définir", category: "Pilotage", echelon: "À définir", icon: "fa-tachometer-alt", iconColor: "text-blue-600", scope: "local" },
+            { id: 127, name: "TBIJ", url: "https://tbij.ersm-sudest.cnamts.fr/index.php?", service: "À définir", category: "Pilotage", echelon: "À définir", icon: "fa-chart-bar", iconColor: "text-blue-600", scope: "local" },
+            { id: 128, name: "Tbr", url: "http://tbr.ersm-idf.cnamts.fr/", service: "MRA PILOTAGE", category: "Pilotage", echelon: "À définir", icon: "fa-tachometer-alt", iconColor: "text-blue-600", scope: "local" },
+            { id: 129, name: "Timelog", url: "http://timelog.ersm-idf.cnamts.fr/", service: "SI", category: "Informatique", echelon: "À définir", icon: "fa-history", iconColor: "text-blue-600", scope: "local" },
+            { id: 130, name: "Tout en clic", url: "http://toutenclic.ersm-idf.cnamts.fr/", service: "COM", category: "Communication", echelon: "À définir", icon: "fa-info-circle", iconColor: "text-blue-600", scope: "local" },
+            { id: 131, name: "TRACER", url: "http://tracer.cnamts.fr/tracer-ihm/", service: "À définir", category: "Finances", echelon: "À définir", icon: "fa-search-dollar", iconColor: "text-blue-600", scope: "national" },
+            { id: 132, name: "Web RFI", url: "http://rfi.noprox.crip.cnamts.fr:7620/rfi/?version=300000", service: "À définir", category: "À définir", echelon: "À définir", icon: "fa-link", iconColor: "text-blue-600", scope: "national" },
+            { id: 133, name: "Webgasper", url: "http://webgasper.ersm-idf.cnamts.fr/", service: "PGAP - GPEC", category: "Ressources Humaines", echelon: "À définir", icon: "fa-user-edit", iconColor: "text-blue-600", scope: "local" },
+            { id: 134, name: "WEBMATIQUE CESTIF-77-91-93-94", url: "http://webmatique.noprox.cestif.cnamts.fr:7302/wm/indexWM.jsp", service: "À définir", category: "Métier", echelon: "À définir", icon: "fa-cogs", iconColor: "text-blue-600", scope: "national" },
+            { id: 135, name: "WEBMATIQUE CRIP-75-78-92-95", url: "http://webmatique.noprox.crip.cnamts.fr:7302/wm/indexWM.jsp", service: "À définir", category: "Métier", echelon: "À définir", icon: "fa-cogs", iconColor: "text-blue-600", scope: "national" },
+            { id: 136, name: "WEBMATIQUE NATIONAL", url: "http://webmatique.noprox.lmde.cnamts.fr:7302/wm/indexWM.jsp", service: "À définir", category: "Métier", echelon: "À définir", icon: "fa-cogs", iconColor: "text-blue-600", scope: "national" },
+            { id: 137, name: "Webpa", url: "http://webpa.ersm-idf.cnamts.fr/", service: "GPEC", category: "Ressources Humaines", echelon: "À définir", icon: "fa-brain", iconColor: "text-blue-600", scope: "local" },
+            { id: 138, name: "Webpc", url: "http://webpc.ersm-idf.cnamts.fr/", service: "GPEC", category: "Ressources Humaines", echelon: "À définir", icon: "fa-brain", iconColor: "text-blue-600", scope: "local" },
+            { id: 139, name: "Webrecrute", url: "http://webrecrute.ersm-idf.cnamts.fr/", service: "GPEC", category: "Ressources Humaines", echelon: "À définir", icon: "fa-user-plus", iconColor: "text-blue-600", scope: "local" },
+            { id: 140, name: "WEBTIME", url: "http://Webtime.ersm-idf.cnamts.fr/incotec/webtime/index.htm", service: "À définir", category: "Ressources Humaines", echelon: "À définir", icon: "fa-clock", iconColor: "text-blue-600", scope: "local" },
+        ];
+        
+        // --- Logique d'affichage et de filtrage ---
+        const appsGrid = document.getElementById('apps-grid');
+        const serviceFilterMenu = document.getElementById('service-filter-menu');
+        const categoryFilterMenu = document.getElementById('category-filter-menu');
+        const echelonFilterMenu = document.getElementById('echelon-filter-menu'); 
+        const currentYearSpan = document.getElementById('currentYear');
+        const searchInput = document.getElementById('search-input');
+
+
+        let currentServiceFilter = 'Tous'; 
+        let currentCategoryFilter = 'Toutes'; 
+        let currentEchelonFilter = 'Tous les échelons'; 
+        let currentSearchTerm = '';
+        
+        const globalCategoriesForServiceFilter = ["Ressources Humaines", "Communication"]; 
+
+        // Fonction pour afficher les applications
+        function renderApplications(appsToRender) {
+            appsGrid.innerHTML = ''; 
+            if (appsToRender.length === 0) {
+                appsGrid.innerHTML = '<p class="text-slate-500 col-span-full text-center py-12 text-lg">Aucune application ne correspond à ces filtres.</p>';
+                return;
+            }
+            appsToRender.sort((a, b) => a.name.localeCompare(b.name));
+
+            appsToRender.forEach(app => {
+                let iconBackground = 'bg-blue-100'; 
+                let iconColor = app.iconColor || 'text-blue-600';
+                let scopeIconHtml = '';
+
+                if (app.scope === 'local') {
+                    iconBackground = 'bg-green-100';
+                    iconColor = 'text-green-700';
+                    scopeIconHtml = `<div class="scope-icon-container" title="Application Locale (Île-de-France)"><i class="fas fa-map-pin text-green-600"></i></div>`;
+                } else if (app.scope === 'national') {
+                     scopeIconHtml = `<div class="scope-icon-container" title="Application Nationale"><i class="fas fa-flag text-blue-600"></i></div>`;
+                }
+
+                const appCard = `
+                    <a href="${app.url.startsWith('#') ? 'javascript:void(0);' : app.url}" ${app.url.startsWith('#') ? '' : 'target="_blank" rel="noopener noreferrer"'} 
+                       class="app-card bg-white p-5 rounded-xl shadow-md hover:shadow-lg flex flex-col items-center text-center h-full ${app.url.startsWith('#') ? 'cursor-not-allowed opacity-70' : ''}">
+                        ${scopeIconHtml}
+                        <div class="w-20 h-20 ${iconBackground} rounded-full flex items-center justify-center mb-5 text-3xl">
+                            <i class="fas ${app.icon} ${iconColor}"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-slate-700 mb-1 flex-grow">${app.name}</h3>
+                        <p class="text-sm text-slate-500 mt-auto">${app.service}</p>
+                        <p class="text-xs text-slate-400 mt-1">${app.category}</p>
+                    </a>
+                `;
+                appsGrid.innerHTML += appCard;
+            });
+        }
+
+        // Fonction pour appliquer le filtre actif et afficher les applications
+        function applyFiltersAndRender() {
+            let appsToShow = [...applications];
+            const searchTerm = currentSearchTerm.toLowerCase();
+
+            if (currentServiceFilter !== 'Tous') {
+                 appsToShow = appsToShow.filter(app => 
+                     app.service === currentServiceFilter || 
+                     globalCategoriesForServiceFilter.includes(app.category)
+                 );
+            } else if (currentCategoryFilter !== 'Toutes') {
+                 appsToShow = appsToShow.filter(app => app.category === currentCategoryFilter);
+            } else if (currentEchelonFilter !== 'Tous les échelons') {
+                 appsToShow = appsToShow.filter(app => app.echelon === currentEchelonFilter);
+            }
+            
+            if (searchTerm) {
+                appsToShow = appsToShow.filter(app => app.name.toLowerCase().includes(searchTerm));
+            }
+            
+            renderApplications(appsToShow); 
+        }
+
+        // Fonction générique pour créer un bouton de filtre
+        function createFilterButton(value, filterType, menuElement, isActive) {
+             const filterButton = document.createElement('button');
+             filterButton.className = 'filter-button block w-full text-left px-4 py-2.5 text-sm text-slate-600 rounded-md hover:bg-blue-50 hover:text-blue-600 transition-colors focus:outline-none focus:ring-1 focus:ring-blue-500';
+             filterButton.textContent = value;
+             
+             if (isActive) {
+                 filterButton.classList.add('active'); 
+             }
+
+             filterButton.onclick = () => {
+                if (filterType === 'service') {
+                    currentServiceFilter = value;
+                    currentCategoryFilter = 'Toutes'; 
+                    currentEchelonFilter = 'Tous les échelons';
+                } else if (filterType === 'category') {
+                    currentCategoryFilter = value;
+                    currentServiceFilter = 'Tous'; 
+                    currentEchelonFilter = 'Tous les échelons';
+                } else if (filterType === 'echelon') {
+                    currentEchelonFilter = value;
+                    currentServiceFilter = 'Tous';
+                    currentCategoryFilter = 'Toutes';
+                }
+                 
+                renderServiceFilters(); 
+                renderCategoryFilters(); 
+                renderEchelonFilters();
+
+                applyFiltersAndRender(); 
+             };
+             menuElement.appendChild(filterButton);
+        }
+
+
+        // Fonction pour générer les filtres de service
+        function renderServiceFilters() {
+            const servicesSet = new Set(applications.map(app => app.service).filter(s => s && s.trim() !== "" && s !== "À définir"));
+            const services = ['Tous', ...Array.from(servicesSet).sort()]; 
+             if (applications.some(app => app.service === "À définir")) {
+                 services.push("À définir");
+             }
+            serviceFilterMenu.innerHTML = ''; 
+            services.forEach(service => createFilterButton(service, 'service', serviceFilterMenu, service === currentServiceFilter));
+        }
+
+        // Fonction pour générer les filtres de catégorie
+        function renderCategoryFilters() {
+            const categoriesSet = new Set(applications.map(app => app.category).filter(c => c && c.trim() !== "" && c !== "À définir"));
+            const categories = ['Toutes', ...Array.from(categoriesSet).sort()]; 
+             if (applications.some(app => app.category === "À définir")) {
+                 categories.push("À définir");
+             }
+            categoryFilterMenu.innerHTML = ''; 
+            categories.forEach(category => createFilterButton(category, 'category', categoryFilterMenu, category === currentCategoryFilter));
+        }
+        
+        // Fonction pour générer les filtres d'échelon
+        function renderEchelonFilters() {
+            const echelonsList = ["Tous les échelons", "ELSM 75", "ELSM 77", "ELSM 78", "ELSM 91", "ELSM 92", "ELSM 93", "ELSM 94", "ELSM 95"];
+            echelonFilterMenu.innerHTML = '';
+            echelonsList.forEach(echelon => createFilterButton(echelon, 'echelon', echelonFilterMenu, echelon === currentEchelonFilter));
+        }
+
+
+        // Fonction pour initialiser les accordéons
+        function setupAccordions() {
+            const accordions = document.querySelectorAll('.accordion-toggle');
+            accordions.forEach(accordion => {
+                const content = accordion.nextElementSibling;
+                const icon = accordion.querySelector('.accordion-icon');
+                accordion.setAttribute('aria-expanded', 'false');
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+
+                accordion.addEventListener('click', () => {
+                    const isExpanded = accordion.getAttribute('aria-expanded') === 'true';
+                    accordion.setAttribute('aria-expanded', !isExpanded);
+                    content.classList.toggle('hidden'); 
+                    icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
+                });
+            });
+        }
+        
+        // Initialisation lors du chargement du DOM
+        document.addEventListener('DOMContentLoaded', () => {
+            if (currentYearSpan) {
+                currentYearSpan.textContent = new Date().getFullYear(); 
+            }
+
+            searchInput.addEventListener('input', (e) => {
+                currentSearchTerm = e.target.value;
+                applyFiltersAndRender();
+            });
+
+            renderServiceFilters(); 
+            renderCategoryFilters(); 
+            renderEchelonFilters(); 
+            setupAccordions(); 
+            applyFiltersAndRender(); 
+        });
+    </script>
+
+</body>
+</html>
