@@ -472,7 +472,7 @@
                 const url = card.getAttribute('data-url');
                 if (url && !url.startsWith('#')) {
                     card.addEventListener('click', () => {
-                        window.open(url, '_blank');
+                        window.open(url, '_blank', 'noopener,noreferrer');
                     });
                 }
                 const docBtn = card.querySelector('.doc-button');
@@ -481,7 +481,7 @@
                     docBtn.addEventListener('click', (e) => {
                         e.stopPropagation();
                         if (docUrl && !docUrl.startsWith('#')) {
-                            window.open(docUrl, '_blank');
+                            window.open(docUrl, '_blank', 'noopener,noreferrer');
                         }
                     });
                 }
