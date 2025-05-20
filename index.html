@@ -401,7 +401,7 @@
             { id: 171, name: "CANON DATA", url: "https://w51750100ges:48443/account/signin?ReturnUrl=%2Fdevice%2Fdevices", service: "SI", category: "Informatique", echelon: "À définir", icon: "fa-link", iconColor: "text-blue-600", scope: "national" },
             { id: 172, name: "PASSEPORT RNH", url: "https://rnh.passeport.cnamts.fr/IhmS1HE/accueil.go?version=300000", service: "SI", category: "Informatique", echelon: "À définir", icon: "fa-link", iconColor: "text-blue-600", scope: "national" },
             { id: 173, name: "Albatec", url: "https://albatectest.drsm-idf.ramage", service: "SI", category: "Informatique", echelon: "À définir", icon: "fa-link", iconColor: "text-blue-600", scope: "local" },
-            { id: 174, name: "COPERNIC", url: "#", service: "SI", category: "Informatique", echelon: "À définir", icon: "fa-link", iconColor: "text-blue-600", scope: "national" },
+            { id: 174, name: "COPERNIC", url: "#", service: "SI", category: "Informatique", echelon: "À définir", icon: "fa-link", iconColor: "text-blue-600", scope: "national", clientLourd: true },
             { id: 175, name: "GEDIFF", url: "https://gediff.ramage/", service: "SI", category: "Informatique", echelon: "À définir", icon: "fa-link", iconColor: "text-blue-600", scope: "local" },
             { id: 176, name: "Dameware", url: "#", service: "SI", category: "Informatique", echelon: "À définir", icon: "fa-link", iconColor: "text-blue-600", scope: "national", clientLourd: true },
             { id: 177, name: "Hippocrate", url: "#", service: "À définir", category: "Métier", echelon: "À définir", icon: "fa-stethoscope", iconColor: "text-blue-600", scope: "national", clientLourd: true },
@@ -443,14 +443,13 @@
                 if (app.clientLourd) {
                     iconBackground = 'bg-orange-100';
                     iconColor = 'text-orange-700';
-                }
-
-                if (app.scope === 'local') {
+                    scopeIconHtml = `<div class="scope-icon-container" aria-label="Application Client Lourd" title="Application Client Lourd"><i class="fas fa-desktop text-orange-600" aria-hidden="true"></i></div>`;
+                } else if (app.scope === 'local') {
                     iconBackground = 'bg-green-100';
                     iconColor = 'text-green-700';
                     scopeIconHtml = `<div class="scope-icon-container" aria-label="Application Locale" title="Application Locale (Île-de-France)"><i class="fas fa-map-pin text-green-600" aria-hidden="true"></i></div>`;
                 } else if (app.scope === 'national') {
-                     scopeIconHtml = `<div class="scope-icon-container" aria-label="Application Nationale" title="Application Nationale"><i class="fas fa-flag text-blue-600" aria-hidden="true"></i></div>`;
+                    scopeIconHtml = `<div class="scope-icon-container" aria-label="Application Nationale" title="Application Nationale"><i class="fas fa-flag text-blue-600" aria-hidden="true"></i></div>`;
                 }
 
                 const isValidUrl = app.url && !app.url.startsWith('#');

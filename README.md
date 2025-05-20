@@ -63,6 +63,10 @@ Une colonne latérale "Affectation" contient trois types de filtres présentés 
     *   Cercle de fond de l'icône principale de couleur bleue.
     *   Icône principale de couleur bleue.
     *   Petite icône "drapeau" (`fa-flag`) bleue en haut à droite de la carte.
+*   **Applications Client Lourd :**
+    *   Cercle de fond de l'icône principale de couleur orange.
+    *   Icône principale de couleur orange.
+    *   Petite icône "ordinateur" (`fa-desktop`) orange en haut à droite de la carte.
 
 ### 3.5. Design et Ergonomie
 
@@ -101,6 +105,7 @@ Les informations sur les applications sont stockées dans un tableau JavaScript 
 *   `iconColor`: (Chaîne) Classe Tailwind CSS pour la couleur de l'icône principale (ex: `"text-blue-600"`).
 *   `scope`: (Chaîne) Portée de l'application : `'local'`, `'national'`, ou `'unknown'`.
 *   `docUrl`: (Chaîne) URL vers la documentation de l'application. Par défaut, un fichier `docs/<nom>.html` est supposé.
+*   `clientLourd`: (Booléen) Indique qu'il s'agit d'un client lourd. L'application est alors affichée avec un style et une icône orange (`fa-desktop`).
 
 ## 6. Installation et Utilisation
 
