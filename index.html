@@ -177,7 +177,7 @@
                     <div class="mb-4">
                         <button type="button" class="accordion-toggle w-full flex justify-between items-center text-left px-3 py-3 text-md font-semibold text-slate-700 rounded-lg hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" aria-expanded="false" aria-controls="services-filters-content">
                             <span>Services ER</span>
-                            <i class="fas fa-chevron-down accordion-icon text-slate-500"></i> 
+                            <i class="fas fa-chevron-down accordion-icon text-slate-500" aria-hidden="true"></i>
                         </button>
                         <div id="services-filters-content" class="accordion-content hidden mt-2 pl-3 border-l-2 border-blue-200 ml-2"> 
                             <nav id="service-filter-menu" class="space-y-1 py-2"></nav>
@@ -187,7 +187,7 @@
                     <div class="mb-4">
                         <button type="button" class="accordion-toggle w-full flex justify-between items-center text-left px-3 py-3 text-md font-semibold text-slate-700 rounded-lg hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" aria-expanded="false" aria-controls="echelons-filters-content">
                             <span>Échelons</span>
-                            <i class="fas fa-chevron-down accordion-icon text-slate-500"></i> 
+                            <i class="fas fa-chevron-down accordion-icon text-slate-500" aria-hidden="true"></i>
                         </button>
                         <div id="echelons-filters-content" class="accordion-content hidden mt-2 pl-3 border-l-2 border-blue-200 ml-2"> 
                             <nav id="echelon-filter-menu" class="space-y-1 py-2"></nav>
@@ -197,7 +197,7 @@
                     <div>
                         <button type="button" class="accordion-toggle w-full flex justify-between items-center text-left px-3 py-3 text-md font-semibold text-slate-700 rounded-lg hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" aria-expanded="false" aria-controls="categories-filters-content">
                             <span>Catégories</span>
-                            <i class="fas fa-chevron-down accordion-icon text-slate-500"></i> 
+                            <i class="fas fa-chevron-down accordion-icon text-slate-500" aria-hidden="true"></i>
                         </button>
                         <div id="categories-filters-content" class="accordion-content hidden mt-2 pl-3 border-l-2 border-blue-200 ml-2"> 
                             <nav id="category-filter-menu" class="space-y-1 py-2"></nav>
@@ -442,9 +442,9 @@
                 if (app.scope === 'local') {
                     iconBackground = 'bg-green-100';
                     iconColor = 'text-green-700';
-                    scopeIconHtml = `<div class="scope-icon-container" title="Application Locale (Île-de-France)"><i class="fas fa-map-pin text-green-600"></i></div>`;
+                    scopeIconHtml = `<div class="scope-icon-container" aria-label="Application Locale" title="Application Locale (Île-de-France)"><i class="fas fa-map-pin text-green-600" aria-hidden="true"></i></div>`;
                 } else if (app.scope === 'national') {
-                     scopeIconHtml = `<div class="scope-icon-container" title="Application Nationale"><i class="fas fa-flag text-blue-600"></i></div>`;
+                     scopeIconHtml = `<div class="scope-icon-container" aria-label="Application Nationale" title="Application Nationale"><i class="fas fa-flag text-blue-600" aria-hidden="true"></i></div>`;
                 }
 
                 const appCard = `
