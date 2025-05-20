@@ -403,7 +403,8 @@
             { id: 173, name: "Albatec", url: "https://albatectest.drsm-idf.ramage", service: "SI", category: "Informatique", echelon: "À définir", icon: "fa-link", iconColor: "text-blue-600", scope: "local" },
             { id: 174, name: "COPERNIC", url: "#", service: "SI", category: "Informatique", echelon: "À définir", icon: "fa-link", iconColor: "text-blue-600", scope: "national" },
             { id: 175, name: "GEDIFF", url: "https://gediff.ramage/", service: "SI", category: "Informatique", echelon: "À définir", icon: "fa-link", iconColor: "text-blue-600", scope: "local" },
-            { id: 176, name: "Dameware", url: "#", service: "SI", category: "Informatique", echelon: "À définir", icon: "fa-link", iconColor: "text-blue-600", scope: "national" },
+            { id: 176, name: "Dameware", url: "#", service: "SI", category: "Informatique", echelon: "À définir", icon: "fa-link", iconColor: "text-blue-600", scope: "national", clientLourd: true },
+            { id: 177, name: "Hippocrate", url: "#", service: "À définir", category: "Métier", echelon: "À définir", icon: "fa-stethoscope", iconColor: "text-blue-600", scope: "national", clientLourd: true },
         ];
         
         // --- Logique d'affichage et de filtrage ---
@@ -435,9 +436,14 @@
             appsToRender.sort((a, b) => a.name.localeCompare(b.name));
 
             appsToRender.forEach(app => {
-                let iconBackground = 'bg-blue-100'; 
+                let iconBackground = 'bg-blue-100';
                 let iconColor = app.iconColor || 'text-blue-600';
                 let scopeIconHtml = '';
+
+                if (app.clientLourd) {
+                    iconBackground = 'bg-orange-100';
+                    iconColor = 'text-orange-700';
+                }
 
                 if (app.scope === 'local') {
                     iconBackground = 'bg-green-100';
@@ -458,7 +464,6 @@
                             <i class="fas ${app.icon} ${iconColor}"></i>
                         </div>
                         <h3 class="text-lg font-semibold text-slate-700 mb-1 flex-grow">${app.name}</h3>
-                        <p class="text-sm text-slate-500 mt-auto">${app.service}</p>
                         <!-- text-slate-400 (#94a3b8) on white gave a contrast ratio of ~2.56 -->
                         <!-- Changed to text-slate-600 (#475569) for a ratio >7 to meet RGAA -->
                         <p class="text-xs text-slate-600 mt-1">${app.category}</p>
