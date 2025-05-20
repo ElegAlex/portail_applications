@@ -149,3 +149,7 @@ Pour ajouter, modifier ou supprimer une application :
 
 Pour toute question, suggestion ou rapport de bug, veuillez contacter :
 [Nom du service/personne responsable et adresse e-mail ou moyen de contact]
+
+## 10. Licence
+
+Ce projet est distribué sous la licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
