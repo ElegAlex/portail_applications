@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation : GESMOUV - DRSM IDF</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f1f5f9; /* bg-slate-100 */
+            color: #334155; /* text-slate-700 */
+        }
+        .content-wrapper {
+            flex-grow: 1;
+        }
+        .documentation-section h2 {
+            font-size: 1.75rem; /* text-2xl */
+            font-weight: 700; /* font-bold */
+            color: #1e3a8a; /* text-blue-800 */
+            margin-bottom: 1rem; /* mb-4 */
+            padding-bottom: 0.5rem; /* pb-2 */
+            border-bottom: 2px solid #93c5fd; /* border-blue-300 */
+        }
+        .documentation-section h3 {
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 600; /* font-semibold */
+            color: #1e40af; /* text-blue-700 */
+            margin-top: 1.5rem; /* mt-6 */
+            margin-bottom: 0.75rem; /* mb-3 */
+        }
+        .documentation-section p, .documentation-section ul, .documentation-section ol {
+            margin-bottom: 1rem; /* mb-4 */
+            line-height: 1.6;
+        }
+        .documentation-section ul {
+            list-style-type: disc;
+            margin-left: 1.5rem; /* ml-6 */
+        }
+        .documentation-section ol {
+            list-style-type: decimal;
+            margin-left: 1.5rem; /* ml-6 */
+        }
+        .documentation-section code {
+            background-color: #e2e8f0; /* bg-slate-200 */
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem; /* rounded */
+            font-family: monospace;
+        }
+        .documentation-section pre {
+            background-color: #1e293b; /* bg-slate-800 */
+            color: #e2e8f0; /* text-slate-200 */
+            padding: 1rem; /* p-4 */
+            border-radius: 0.5rem; /* rounded-lg */
+            overflow-x: auto;
+            margin-bottom: 1rem; /* mb-4 */
+        }
+        .documentation-section pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        .documentation-section .note {
+            background-color: #eff6ff; /* bg-blue-50 */
+            border-left: 4px solid #3b82f6; /* border-blue-500 */
+            padding: 1rem; /* p-4 */
+            margin-bottom: 1rem; /* mb-4 */
+            border-radius: 0.25rem; /* rounded */
+        }
+        .documentation-section .warning {
+            background-color: #fffbeb; /* bg-yellow-50 */
+            border-left: 4px solid #f59e0b; /* border-yellow-500 */
+            padding: 1rem; /* p-4 */
+            margin-bottom: 1rem; /* mb-4 */
+            border-radius: 0.25rem; /* rounded */
+        }
+        .back-to-portal-link {
+            display: inline-block;
+            margin-top: 2rem; /* mt-8 */
+            padding: 0.75rem 1.5rem; /* py-3 px-6 */
+            background-color: #2563eb; /* bg-blue-600 */
+            color: white;
+            border-radius: 0.5rem; /* rounded-lg */
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        .back-to-portal-link:hover {
+            background-color: #1d4ed8; /* bg-blue-700 */
+        }
+        .top-banner-logo {
+            height: 2rem; /* h-8 */
+        }
+        @media (min-width: 768px) {
+            .top-banner-logo {
+                height: 2.25rem; /* md:h-9 */
+            }
+        }
+        .toc-sticky {
+            position: sticky;
+            top: 2rem; 
+            max-height: calc(100vh - 4rem); 
+            overflow-y: auto;
+        }
+        .screenshot {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #cbd5e1; /* border-slate-300 */
+            border-radius: 0.5rem; /* rounded-lg */
+            margin-top: 0.5rem; /* my-2 */
+            margin-bottom: 0.5rem; /* my-2 */
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); /* shadow-md */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-white py-3 px-6 shadow-sm">
+        <div class="container mx-auto">
+            <img src="../logo-drsm.png" alt="Logo DRSM IDF" class="top-banner-logo" onerror="this.onerror=null;this.src='https://placehold.co/180x40/1E293B/FFFFFF?text=Logo+DRSM+IDF';">
+        </div>
+    </div>
+
+    <header class="bg-blue-700 text-white py-6 px-6 shadow-lg">
+        <div class="container mx-auto text-center md:text-left">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">Documentation : GESMOUV</h1>
+        </div>
+    </header>
+
+    <div class="content-wrapper container mx-auto py-8 px-6">
+        <div class="md:flex md:space-x-8">
+            <aside class="md:w-1/4 mb-8 md:mb-0 hidden md:block">
+                <nav class="toc-sticky bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-slate-700 mb-4 border-b pb-2">Table des matières</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#introduction" class="hover:text-blue-600 hover:underline">1. Introduction</a></li>
+                        <li><a href="#fonctionnalites" class="hover:text-blue-600 hover:underline">2. Fonctionnalités Clés</a></li>
+                        <li><a href="#public-cible" class="hover:text-blue-600 hover:underline">3. Public Cible</a></li>
+                        <li><a href="#prerequis" class="hover:text-blue-600 hover:underline">4. Prérequis</a></li>
+                        <li>
+                            <a href="#guide-utilisation" class="hover:text-blue-600 hover:underline">5. Guide d'Utilisation</a>
+                            <ul class="ml-4 mt-1 space-y-1">
+                                <li><a href="#guide-personnel-mouvement" class="hover:text-blue-600 hover:underline text-xs">5.1 Personnel en mouvement</a></li>
+                                <li><a href="#guide-responsable" class="hover:text-blue-600 hover:underline text-xs">5.2 Responsable Hiérarchique / Support</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#depannage-faq" class="hover:text-blue-600 hover:underline">6. Dépannage / FAQ</a></li>
+                        <li><a href="#support" class="hover:text-blue-600 hover:underline">7. Support et Contact</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <main class="md:w-3/4 documentation-section bg-white p-6 sm:p-8 rounded-lg shadow-md">
+                
+                <section id="introduction">
+                    <h2>1. Introduction</h2>
+                    <p>Bienvenue sur la page de documentation de l'application <strong>GESMOUV</strong> (version 2.6). Cet outil a été conçu pour la <strong>gestion des actions liées aux mouvements du personnel</strong> au sein de l'entreprise (arrivées, départs, mutations, changements de site géographique). Cette documentation vous guidera à travers ses fonctionnalités et son utilisation.</p>
+                </section>
+
+                <section id="fonctionnalites">
+                    <h2>2. Fonctionnalités Clés</h2>
+                    <ul>
+                        <li>Suivi centralisé des actions à réaliser lors d'un mouvement de personnel.</li>
+                        <li>Notification automatique des acteurs concernés (personnel en mouvement, responsables hiérarchiques, services support).</li>
+                        <li>Tableau de bord synthétique pour visualiser l'avancement des actions.</li>
+                        <li>Validation et contrôle des actions réalisées.</li>
+                        <li>Possibilité pour les services support de compléter les descriptions des actions (ex: liste de matériel à restituer).</li>
+                    </ul>
+                </section>
+
+                <section id="public-cible">
+                    <h2>3. Public Cible</h2>
+                    <p>L'application GESMOUV est destinée principalement aux :</p>
+                    <ul>
+                        <li>Personnel en partance ou rejoignant l'entreprise.</li>
+                        <li>Responsables hiérarchiques.</li>
+                        <li>Responsables des services support impliqués dans les mouvements de personnel (ex: RH, Informatique).</li>
+                    </ul>
+                </section>
+
+                <section id="prerequis">
+                    <h2>4. Prérequis</h2>
+                    <p>Avant d'utiliser GESMOUV, assurez-vous de disposer des éléments suivants :</p>
+                    <ul>
+                        <li>Avoir reçu un email automatique de l'application GESMOUV (anciennement GESDEP) vous notifiant d'un mouvement et contenant un lien d'accès.</li>
+                        <li>Le mouvement doit avoir été initialisé par les services RH.</li>
+                    </ul>
+                </section>
+
+                <section id="guide-utilisation">
+                    <h2>5. Guide d'Utilisation</h2>
+                    <p>Ce guide vous explique pas à pas comment utiliser les fonctionnalités principales de GESMOUV.</p>
+                    
+                    <h3 id="guide-personnel-mouvement">5.1. Personnel en partance ou rejoignant l'entreprise</h3>
+                    <p>Si vous êtes concerné par un mouvement (arrivée, départ, mutation, changement de site), vous recevrez un email de GESMOUV.</p>
+                    <ol>
+                        <li><strong>Accès à l'application :</strong> Ouvrez l'application en cliquant sur le lien présent dans l'email reçu.</li>
+                        <li><strong>Tableau de synthèse :</strong> Un tableau de synthèse s'affiche, indiquant le nombre d'actions restant à réaliser pour votre mouvement. Une case rouge indique des actions restantes, une case verte signifie que tout est terminé.
+                            <br><img src="https://placehold.co/600x150/e2e8f0/334155?text=Exemple+Tableau+Synthèse+(Personnel)" alt="Image du tableau de synthèse pour le personnel" class="screenshot">
+                            </li>
+                        <li><strong>Détail des actions :</strong> Cliquez sur la case indiquant le nombre d'actions (ex: "1/7") pour ouvrir le tableau décrivant les actions à réaliser.</li>
+                        <li><strong>Informations complémentaires :</strong> Certaines actions peuvent avoir des informations complémentaires (indiquées par une case "verte" ou une icône spécifique dans le manuel). Consultez-les.
+                            <br><img src="https://placehold.co/600x200/e2e8f0/334155?text=Exemple+Détail+Actions+(Personnel)" alt="Image du détail des actions pour le personnel" class="screenshot">
+                            </li>
+                        <li><strong>Validation des actions :</strong> Pour chaque action terminée, cochez la case "action réalisée". Si une action ne vous concerne pas, cochez la case "NC" (non concerné). Les actions validées apparaissent sur fond bleu, et la date et votre nom sont enregistrés.</li>
+                    </ol>
+
+                    <h3 id="guide-responsable">5.2. Responsable Hiérarchique & Responsable d'un Service Support</h3>
+                    <p>Si vous êtes un responsable hiérarchique ou un responsable d'un service support, vous recevrez un email vous informant du mouvement d'un personnel.</p>
+                    <ol>
+                        <li><strong>Accès à l'application :</strong> Ouvrez l'application via le lien dans l'email.</li>
+                        <li><strong>Tableau de synthèse global :</strong> Un tableau de synthèse s'affiche avec tous les mouvements pour lesquels vous avez des actions à réaliser, contrôler ou compléter.
+                            <br><img src="https://placehold.co/600x150/e2e8f0/334155?text=Exemple+Tableau+Synthèse+(Responsable)" alt="Image du tableau de synthèse pour les responsables" class="screenshot">
+                            </li>
+                        <li><strong>Compléter la description des actions (si applicable) :</strong>
+                            <ul>
+                                <li>Cliquez sur une case dans la colonne "Nb actions complétées" pour le personnel concerné.</li>
+                                <li>Vous verrez la liste des "Actions à Compléter".</li>
+                                <li>Pour une action, sélectionnez le symbole "vert" (ou icône dédiée) pour ouvrir une boîte de dialogue.</li>
+                                <li>Saisissez les informations complémentaires (ex: liste de matériel à restituer pour le service informatique).</li>
+                                <li>Validez avec le bouton "Modifier".
+                                <br><img src="https://placehold.co/600x250/e2e8f0/334155?text=Exemple+Complétion+Actions" alt="Image de la complétion des actions" class="screenshot">
+                                </li>
+                            </ul>
+                        </li>
+                        <li><strong>Réalisation des actions (si sous votre responsabilité) :</strong>
+                            <ul>
+                                <li>Cliquez sur une case dans la colonne "Nb actions réalisées" pour le personnel concerné.</li>
+                                <li>Validez chaque action terminée en cochant "action réalisée" ou "NC". Les actions déjà réalisées apparaissent sur fond bleu.
+                                <br><img src="https://placehold.co/600x200/e2e8f0/334155?text=Exemple+Réalisation+Actions+(Responsable)" alt="Image de la réalisation des actions par un responsable" class="screenshot">
+                                </li>
+                            </ul>
+                        </li>
+                        <li><strong>Contrôle des actions :</strong>
+                            <ul>
+                                <li>Cliquez sur une case dans la colonne "Nb actions contrôlées" pour le personnel concerné.</li>
+                                <li>Vous verrez la liste des "Actions à contrôler". Les lignes sur fond bleu sont celles déjà réalisées par l'agent ou un autre acteur.</li>
+                                <li>Cochez la case "Action contrôlée". La date et votre nom sont automatiquement renseignés.</li>
+                                <li>Si vous êtes responsable à la fois de l'action et de son contrôle, la validation du contrôle valide les deux opérations.
+                                <br><img src="https://placehold.co/600x150/e2e8f0/334155?text=Exemple+Contrôle+Actions" alt="Image du contrôle des actions" class="screenshot">
+                                </li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <div class="note">
+                        <p><strong>Important :</strong> Il est crucial de compléter la description des actions et de valider/contrôler les actions en temps voulu pour assurer la fluidité du processus de mouvement du personnel.</p>
+                    </div>
+                </section>
+
+                <section id="depannage-faq">
+                    <h2>6. Dépannage / FAQ</h2>
+                    
+                    <h3>Question 1 : Je n'ai pas reçu d'email de GESMOUV, que faire ?</h3>
+                    <p>Réponse : Assurez-vous que votre mouvement a bien été initialisé par les services RH. Si c'est le cas et que vous n'avez toujours pas reçu d'email, contactez les services RH ou le support applicatif.</p>
+
+                    <h3>Question 2 : La case d'une action est rouge dans le tableau de synthèse, qu'est-ce que cela signifie ?</h3>
+                    <p>Réponse : Une case rouge indique qu'il reste des actions à réaliser, à compléter ou à contrôler pour le mouvement concerné.</p>
+                    
+                    <h3>Question 3 : Comment savoir si une information complémentaire est disponible pour une action ?</h3>
+                    <p>Réponse : Dans le détail des actions, une icône spécifique (souvent une case verte ou un symbole "+") à côté de l'action indique la présence d'informations complémentaires à consulter.</p>
+
+                </section>
+
+                <section id="support">
+                    <h2>7. Support et Contact</h2>
+                    <p>Si vous rencontrez des difficultés avec l'application GESMOUV ou si vous avez des questions qui ne sont pas couvertes par cette documentation, veuillez contacter :</p>
+                    <ul>
+                        <li><strong>Service RH :</strong> Pour les questions relatives à l'initialisation de votre mouvement.</li>
+                        <li><strong>Support Informatique local :</strong> Pour les problèmes techniques liés à l'application. (Contacts à préciser par la DRSM IDF)</li>
+                        <li><strong>MOA (Delphine MULLER-GOSSET selon le manuel) :</strong> Pour les questions fonctionnelles (contact à vérifier/actualiser par la DRSM IDF).</li>
+                    </ul>
+                    <p>Pour faciliter la résolution de votre problème, veuillez fournir autant de détails que possible.</p>
+                </section>
+
+                <a href="../index.html" class="back-to-portal-link">
+                    <i class="fas fa-arrow-left mr-2"></i> Retour au Portail des Applications
+                </a>
+            </main>
+        </div>
+    </div>
+
+    <footer class="bg-slate-700 text-slate-300 py-4 px-6 text-center mt-auto">
+        <div class="container mx-auto">
+            <p class="text-xs">&copy; <span id="currentYear"></span> DRSM IDF - Tous droits réservés.</p>
+            <p class="text-xs mt-1">Dernière mise à jour de cette documentation (basée sur Manuel Utilisateur V2.6) : 11/06/2018</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const tocLinks = document.querySelectorAll('.toc-sticky a[href^="#"]');
+            const sections = [];
+            tocLinks.forEach(link => {
+                const sectionId = link.getAttribute('href');
+                const section = document.querySelector(sectionId);
+                if (section) {
+                    sections.push(section);
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        section.scrollIntoView({ behavior: 'smooth' });
+                        tocLinks.forEach(l => l.classList.remove('font-semibold', 'text-blue-600'));
+                        this.classList.add('font-semibold', 'text-blue-600');
+                    });
+                }
+            });
+
+            function onScroll() {
+                let currentSectionId = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const headerHeight = document.querySelector('header.bg-blue-700')?.offsetHeight || 0; 
+                    if (pageYOffset >= sectionTop - headerHeight - 20) { 
+                        currentSectionId = section.getAttribute('id');
+                    }
+                });
+
+                tocLinks.forEach(link => {
+                    link.classList.remove('font-semibold', 'text-blue-600');
+                    if (link.getAttribute('href') === `#${currentSectionId}`) {
+                        link.classList.add('font-semibold', 'text-blue-600');
+                    }
+                });
+            }
+            // window.addEventListener('scroll', onScroll);
+            // onScroll(); 
+        });
+    </script>
+
+</body>
+</html>
