@@ -520,6 +520,7 @@
                 if (docBtn) {
                     const docUrl = card.getAttribute('data-doc');
                     docBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
                         e.stopPropagation();
                         if (docUrl && !docUrl.startsWith('#')) {
                             window.open(docUrl, '_blank', 'noopener,noreferrer');
