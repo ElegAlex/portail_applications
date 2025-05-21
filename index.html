@@ -240,7 +240,7 @@
     <script>
         // --- Données finales et consolidées des applications ---
         const applications = [
-            { id: 1, name: "ADAGES", url: "http://adages-prod.cnamts.fr/adagesprd/", service: "À définir", category: "Archivage", echelon: "À définir", icon: "fa-archive", iconColor: "text-blue-600", scope: "national" },
+            { id: 1, name: "ADAGES", url: "http://adages-prod.cnamts.fr/adagesprd/", service: "À définir", category: "Archivage", echelon: "À définir", icon: "fa-archive", iconColor: "text-blue-600", scope: "national", docUrl: "docs/adages.html" },
             { id: 2, name: "ADONIS", url: "http://adonis.cnamts.fr/", service: "À définir", category: "Documentation", echelon: "À définir", icon: "fa-book", iconColor: "text-blue-600", scope: "national" },
             { id: 3, name: "AERO CNAMTS", url: "http://www.aero.cnamts.fr/", service: "À définir", category: "Transport", echelon: "À définir", icon: "fa-plane", iconColor: "text-blue-600", scope: "national" },
             { id: 4, name: "AGATE", url: "https://agate.cnamts.fr/agate/", service: "À définir", category: "Gestion", echelon: "À définir", icon: "fa-child", iconColor: "text-blue-600", scope: "national" },
@@ -299,7 +299,7 @@
             { id: 57, name: "Gasper", url: "http://gasper.ersm-idf.cnamts.fr/", service: "GPEC", category: "Ressources Humaines", echelon: "À définir", icon: "fa-user-edit", iconColor: "text-blue-600", scope: "local" },
             { id: 58, name: "Gdal", url: "http://gdal.ersm-idf.cnamts.fr/", service: "SSI", category: "Sécurité", echelon: "À définir", icon: "fa-key", iconColor: "text-blue-600", scope: "local" },
             { id: 59, name: "GED", url: "http://ged.cnamts.fr/ged/", service: "À définir", category: "Documentation", echelon: "À définir", icon: "fa-folder", iconColor: "text-blue-600", scope: "national" },
-            { id: 60, name: "Gesmouv", url: "http://gesmouv.ersm-idf.cnamts.fr/", service: "PGAP", category: "Ressources Humaines", echelon: "À définir", icon: "fa-user-clock", iconColor: "text-blue-600", scope: "local" },
+            { id: 60, name: "Gesmouv", url: "http://gesmouv.ersm-idf.cnamts.fr/", service: "PGAP", category: "Ressources Humaines", echelon: "À définir", icon: "fa-user-clock", iconColor: "text-blue-600", scope: "local", docUrl: "docs/gesmouv.html" },
             { id: 61, name: "Gesprat", url: "http://gesprat.ersm-idf.cnamts.fr/", service: "GPEC – DRHR CNAM", category: "Ressources Humaines", echelon: "À définir", icon: "fa-user-md", iconColor: "text-blue-600", scope: "local" },
             { id: 62, name: "GINKO", url: "http://ginko.cnamts.fr/ginko-ihm/", service: "À définir", category: "Gestion d'incidents", echelon: "À définir", icon: "fa-exclamation-triangle", iconColor: "text-blue-600", scope: "national" },
             { id: 63, name: "GRACE", url: "http://grace.cnamts.fr/grace-ihm/", service: "À définir", category: "Relation Client", echelon: "À définir", icon: "fa-envelope-open-text", iconColor: "text-blue-600", scope: "national" },
@@ -475,8 +475,10 @@
                 const tag = isValidUrl ? 'a' : 'div';
                 const hrefAttr = isValidUrl ? `href="${app.url}" target="_blank" rel="noopener noreferrer"` : '';
                 const tabAttr = isValidUrl ? '' : 'tabindex="0"';
+                const docAttr = app.docUrl ? `data-doc="${app.docUrl}"` : '';
+                const docButtonHtml = app.docUrl ? `<span class="${docButtonClass}" role="button" tabindex="0">Documentation</span>` : '';
                 const appCard = `
-                    <${tag} class="app-card bg-white p-5 rounded-xl shadow-md hover:shadow-lg flex flex-col items-center text-center h-full ${isValidUrl ? 'cursor-pointer' : 'cursor-not-allowed opacity-70'}" data-url="${app.url}" data-doc="${app.docUrl ? app.docUrl : 'docs/' + slugify(app.name) + '.html'}" ${hrefAttr} ${tabAttr}>
+                    <${tag} class="app-card bg-white p-5 rounded-xl shadow-md hover:shadow-lg flex flex-col items-center text-center h-full ${isValidUrl ? 'cursor-pointer' : 'cursor-not-allowed opacity-70'}" data-url="${app.url}" ${docAttr} ${hrefAttr} ${tabAttr}>
                         ${scopeIconHtml}
                         <div class="w-20 h-20 ${iconBackground} rounded-full flex items-center justify-center mb-5 text-3xl">
                             <i class="fas ${app.icon} ${iconColor}"></i>
@@ -485,7 +487,7 @@
                         <!-- text-slate-400 (#94a3b8) on white gave a contrast ratio of ~2.56 -->
                         <!-- Changed to text-slate-600 (#475569) for a ratio >7 to meet RGAA -->
                         <p class="text-xs text-slate-600 mt-1">${app.category}</p>
-                        <span class="${docButtonClass}" role="button" tabindex="0">Documentation</span>
+                        ${docButtonHtml}
                     </${tag}>
 `;
                 appsGrid.innerHTML += appCard;
@@ -518,6 +520,7 @@
                 if (docBtn) {
                     const docUrl = card.getAttribute('data-doc');
                     docBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
                         e.stopPropagation();
                         if (docUrl && !docUrl.startsWith('#')) {
                             window.open(docUrl, '_blank', 'noopener,noreferrer');

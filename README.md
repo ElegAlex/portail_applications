@@ -32,7 +32,7 @@ Chaque carte affiche :
 
 Les applications sont triées par ordre alphabétique.
 Un clic sur une carte ouvre l'URL de l'application dans un nouvel onglet.
-Chaque carte propose également un bouton "Documentation" ouvrant la page de manuel utilisateur correspondante.
+Un bouton "Documentation" est affiché uniquement lorsque l'application dispose d'un manuel utilisateur (propriété `docUrl`).
 
 ### 3.2. Barre de Recherche
 
@@ -104,7 +104,7 @@ Les informations sur les applications sont stockées dans un tableau JavaScript 
 *   `icon`: (Chaîne) Classe Font Awesome pour l'icône principale (ex: `"fa-cogs"`).
 *   `iconColor`: (Chaîne) Classe Tailwind CSS pour la couleur de l'icône principale (ex: `"text-blue-600"`).
 *   `scope`: (Chaîne) Portée de l'application : `'local'`, `'national'`, ou `'unknown'`.
-*   `docUrl`: (Chaîne) URL vers la documentation de l'application. Par défaut, un fichier `docs/<nom>.html` est supposé.
+*   `docUrl`: (Chaîne, optionnel) URL vers la documentation de l'application. Si cette propriété est absente, aucun bouton de documentation n'est affiché.
 *   `clientLourd`: (Booléen) Indique qu'il s'agit d'un client lourd. L'application est alors affichée avec un style et une icône orange (`fa-desktop`).
 
 ## 6. Installation et Utilisation
