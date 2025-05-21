@@ -111,8 +111,16 @@
             border: 1px solid #cbd5e1; /* border-slate-300 */
             border-radius: 0.5rem; /* rounded-lg */
             margin-top: 0.5rem; /* my-2 */
-            margin-bottom: 0.5rem; /* my-2 */
+            margin-bottom: 1rem; /* mb-4 car les images dans le doc ont souvent du texte après */
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); /* shadow-md */
+        }
+        .image-caption {
+            font-style: italic;
+            color: #64748b; /* text-slate-500 */
+            text-align: center;
+            margin-top: -0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem; /* text-sm */
         }
     </style>
 </head>
@@ -137,18 +145,22 @@
                     <h3 class="text-lg font-semibold text-slate-700 mb-4 border-b pb-2">Table des matières</h3>
                     <ul class="space-y-2 text-sm">
                         <li><a href="#introduction" class="hover:text-blue-600 hover:underline">1. Introduction</a></li>
-                        <li><a href="#fonctionnalites" class="hover:text-blue-600 hover:underline">2. Fonctionnalités Clés</a></li>
-                        <li><a href="#public-cible" class="hover:text-blue-600 hover:underline">3. Public Cible</a></li>
-                        <li><a href="#prerequis" class="hover:text-blue-600 hover:underline">4. Prérequis</a></li>
+                        <li><a href="#public-cible-doc" class="hover:text-blue-600 hover:underline">2. Public Cible de ce document</a></li>
                         <li>
-                            <a href="#guide-utilisation" class="hover:text-blue-600 hover:underline">5. Guide d'Utilisation</a>
+                            <a href="#guide-utilisation" class="hover:text-blue-600 hover:underline">3. Guide d'Utilisation</a>
                             <ul class="ml-4 mt-1 space-y-1">
-                                <li><a href="#guide-personnel-mouvement" class="hover:text-blue-600 hover:underline text-xs">5.1 Personnel en mouvement</a></li>
-                                <li><a href="#guide-responsable" class="hover:text-blue-600 hover:underline text-xs">5.2 Responsable Hiérarchique / Support</a></li>
+                                <li><a href="#personnel-mouvement" class="hover:text-blue-600 hover:underline text-xs">3.1 Personnel en partance ou rejoignant l'entreprise</a></li>
+                                <li><a href="#responsable-hierarchique-support" class="hover:text-blue-600 hover:underline text-xs">3.2 Responsable Hiérarchique & Service Support</a>
+                                    <ul class="ml-4 mt-1 space-y-1">
+                                        <li><a href="#completer-actions" class="hover:text-blue-600 hover:underline text-xs">3.2.1 Compléter la description des actions</a></li>
+                                        <li><a href="#realisation-actions" class="hover:text-blue-600 hover:underline text-xs">3.2.2 Réalisation des actions</a></li>
+                                        <li><a href="#controle-actions" class="hover:text-blue-600 hover:underline text-xs">3.2.3 Contrôle des actions</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </li>
-                        <li><a href="#depannage-faq" class="hover:text-blue-600 hover:underline">6. Dépannage / FAQ</a></li>
-                        <li><a href="#support" class="hover:text-blue-600 hover:underline">7. Support et Contact</a></li>
+                        <li><a href="#historique-versions" class="hover:text-blue-600 hover:underline">4. Historique des Versions</a></li>
+                        <li><a href="#support" class="hover:text-blue-600 hover:underline">5. Support et Contact</a></li>
                     </ul>
                 </nav>
             </aside>
@@ -157,126 +169,96 @@
                 
                 <section id="introduction">
                     <h2>1. Introduction</h2>
-                    <p>Bienvenue sur la page de documentation de l'application <strong>GESMOUV</strong> (version 2.6). Cet outil a été conçu pour la <strong>gestion des actions liées aux mouvements du personnel</strong> au sein de l'entreprise (arrivées, départs, mutations, changements de site géographique). Cette documentation vous guidera à travers ses fonctionnalités et son utilisation.</p>
+                    <p>L'application <strong>GESMOUV</strong> (anciennement GESDEP) a pour objectif la gestion des actions liées aux mouvements du personnel (arrivées, départs de l'institution, mutations dans un autre organisme, changements de site géographique).</p>
+                    <p>Ce document décrit les fonctionnalités de la version 2.6 de GESMOUV.</p>
                 </section>
 
-                <section id="fonctionnalites">
-                    <h2>2. Fonctionnalités Clés</h2>
+                <section id="public-cible-doc">
+                    <h2>2. Public Cible de ce document</h2>
+                     <p>Ce manuel utilisateur s'adresse aux personnes suivantes :</p>
                     <ul>
-                        <li>Suivi centralisé des actions à réaliser lors d'un mouvement de personnel.</li>
-                        <li>Notification automatique des acteurs concernés (personnel en mouvement, responsables hiérarchiques, services support).</li>
-                        <li>Tableau de bord synthétique pour visualiser l'avancement des actions.</li>
-                        <li>Validation et contrôle des actions réalisées.</li>
-                        <li>Possibilité pour les services support de compléter les descriptions des actions (ex: liste de matériel à restituer).</li>
+                        <li>Le personnel en partance ou rejoignant l'entreprise.</li>
+                        <li>Les responsables hiérarchiques.</li>
+                        <li>Les responsables d'un service support impliqué dans le processus de mouvement.</li>
                     </ul>
                 </section>
 
-                <section id="public-cible">
-                    <h2>3. Public Cible</h2>
-                    <p>L'application GESMOUV est destinée principalement aux :</p>
-                    <ul>
-                        <li>Personnel en partance ou rejoignant l'entreprise.</li>
-                        <li>Responsables hiérarchiques.</li>
-                        <li>Responsables des services support impliqués dans les mouvements de personnel (ex: RH, Informatique).</li>
-                    </ul>
-                </section>
-
-                <section id="prerequis">
-                    <h2>4. Prérequis</h2>
-                    <p>Avant d'utiliser GESMOUV, assurez-vous de disposer des éléments suivants :</p>
-                    <ul>
-                        <li>Avoir reçu un email automatique de l'application GESMOUV (anciennement GESDEP) vous notifiant d'un mouvement et contenant un lien d'accès.</li>
-                        <li>Le mouvement doit avoir été initialisé par les services RH.</li>
-                    </ul>
-                </section>
 
                 <section id="guide-utilisation">
-                    <h2>5. Guide d'Utilisation</h2>
-                    <p>Ce guide vous explique pas à pas comment utiliser les fonctionnalités principales de GESMOUV.</p>
+                    <h2>3. Guide d'Utilisation</h2>
                     
-                    <h3 id="guide-personnel-mouvement">5.1. Personnel en partance ou rejoignant l'entreprise</h3>
-                    <p>Si vous êtes concerné par un mouvement (arrivée, départ, mutation, changement de site), vous recevrez un email de GESMOUV.</p>
-                    <ol>
-                        <li><strong>Accès à l'application :</strong> Ouvrez l'application en cliquant sur le lien présent dans l'email reçu.</li>
-                        <li><strong>Tableau de synthèse :</strong> Un tableau de synthèse s'affiche, indiquant le nombre d'actions restant à réaliser pour votre mouvement. Une case rouge indique des actions restantes, une case verte signifie que tout est terminé.
-                            <br><img src="https://placehold.co/600x150/e2e8f0/334155?text=Exemple+Tableau+Synthèse+(Personnel)" alt="Image du tableau de synthèse pour le personnel" class="screenshot">
-                            </li>
-                        <li><strong>Détail des actions :</strong> Cliquez sur la case indiquant le nombre d'actions (ex: "1/7") pour ouvrir le tableau décrivant les actions à réaliser.</li>
-                        <li><strong>Informations complémentaires :</strong> Certaines actions peuvent avoir des informations complémentaires (indiquées par une case "verte" ou une icône spécifique dans le manuel). Consultez-les.
-                            <br><img src="https://placehold.co/600x200/e2e8f0/334155?text=Exemple+Détail+Actions+(Personnel)" alt="Image du détail des actions pour le personnel" class="screenshot">
-                            </li>
-                        <li><strong>Validation des actions :</strong> Pour chaque action terminée, cochez la case "action réalisée". Si une action ne vous concerne pas, cochez la case "NC" (non concerné). Les actions validées apparaissent sur fond bleu, et la date et votre nom sont enregistrés.</li>
-                    </ol>
+                    <h3 id="personnel-mouvement">3.1. Personnel en partance ou rejoignant l'entreprise</h3>
+                    <p>Sur initialisation des services RH, vous venez de recevoir un mail automatique de l’application (anciennement GESDEP) pour valider les actions liées à votre mouvement.</p>
+                    <p>En ouvrant l’application par le lien présent dans le courriel reçu, vous verrez apparaître un tableau de synthèse vous indiquant le nombre d’actions restant à réaliser (case rouge => il reste des actions, case verte => c’est terminé).</p>
+                    
+                    <img src="images/gesmouv1.png" alt="Tableau de synthèse des actions pour un agent" class="screenshot">
+                    <p class="image-caption">Exemple : 1 action réalisée sur 7 au total, il en reste donc 6.</p>
 
-                    <h3 id="guide-responsable">5.2. Responsable Hiérarchique & Responsable d'un Service Support</h3>
-                    <p>Si vous êtes un responsable hiérarchique ou un responsable d'un service support, vous recevrez un email vous informant du mouvement d'un personnel.</p>
-                    <ol>
-                        <li><strong>Accès à l'application :</strong> Ouvrez l'application via le lien dans l'email.</li>
-                        <li><strong>Tableau de synthèse global :</strong> Un tableau de synthèse s'affiche avec tous les mouvements pour lesquels vous avez des actions à réaliser, contrôler ou compléter.
-                            <br><img src="https://placehold.co/600x150/e2e8f0/334155?text=Exemple+Tableau+Synthèse+(Responsable)" alt="Image du tableau de synthèse pour les responsables" class="screenshot">
-                            </li>
-                        <li><strong>Compléter la description des actions (si applicable) :</strong>
-                            <ul>
-                                <li>Cliquez sur une case dans la colonne "Nb actions complétées" pour le personnel concerné.</li>
-                                <li>Vous verrez la liste des "Actions à Compléter".</li>
-                                <li>Pour une action, sélectionnez le symbole "vert" (ou icône dédiée) pour ouvrir une boîte de dialogue.</li>
-                                <li>Saisissez les informations complémentaires (ex: liste de matériel à restituer pour le service informatique).</li>
-                                <li>Validez avec le bouton "Modifier".
-                                <br><img src="https://placehold.co/600x250/e2e8f0/334155?text=Exemple+Complétion+Actions" alt="Image de la complétion des actions" class="screenshot">
-                                </li>
-                            </ul>
-                        </li>
-                        <li><strong>Réalisation des actions (si sous votre responsabilité) :</strong>
-                            <ul>
-                                <li>Cliquez sur une case dans la colonne "Nb actions réalisées" pour le personnel concerné.</li>
-                                <li>Validez chaque action terminée en cochant "action réalisée" ou "NC". Les actions déjà réalisées apparaissent sur fond bleu.
-                                <br><img src="https://placehold.co/600x200/e2e8f0/334155?text=Exemple+Réalisation+Actions+(Responsable)" alt="Image de la réalisation des actions par un responsable" class="screenshot">
-                                </li>
-                            </ul>
-                        </li>
-                        <li><strong>Contrôle des actions :</strong>
-                            <ul>
-                                <li>Cliquez sur une case dans la colonne "Nb actions contrôlées" pour le personnel concerné.</li>
-                                <li>Vous verrez la liste des "Actions à contrôler". Les lignes sur fond bleu sont celles déjà réalisées par l'agent ou un autre acteur.</li>
-                                <li>Cochez la case "Action contrôlée". La date et votre nom sont automatiquement renseignés.</li>
-                                <li>Si vous êtes responsable à la fois de l'action et de son contrôle, la validation du contrôle valide les deux opérations.
-                                <br><img src="https://placehold.co/600x150/e2e8f0/334155?text=Exemple+Contrôle+Actions" alt="Image du contrôle des actions" class="screenshot">
-                                </li>
-                            </ul>
-                        </li>
-                    </ol>
+                    <p>Un clic sur la case vous indiquant le nombre d’actions (ex: "1/7") vous ouvre le tableau décrivant les actions à réaliser.</p>
+                    <p>Des informations complémentaires sur les actions sont éventuellement présentes dans la rubrique « Informations complémentaires » (indiquées par une icône "+" ou une case verte).</p>
+                    <img src="images/gesmouv2.png" alt="Détail des actions à réaliser pour un agent" class="screenshot">
+                    <p>Vous devez valider chaque action terminée en cochant la case « Action réalisée » ou la case « Non concerné » (NC). Les actions définies comme « réalisées » apparaissent sur fond « bleu ». La date et le nom de l’acteur sont renseignés au moment de la validation.</p>
                     <div class="note">
-                        <p><strong>Important :</strong> Il est crucial de compléter la description des actions et de valider/contrôler les actions en temps voulu pour assurer la fluidité du processus de mouvement du personnel.</p>
+                        <p>Si vous n’êtes pas concerné par une action, cochez la case NC (non concerné).</p>
+                        <p>Toutes les actions terminées doivent être validées par la sélection de la case « action réalisée ».</p>
+                        <p>Une case «Verte» (ou icône "+") dans la colonne "Informations complémentaires" indique des informations complémentaires à consulter.</p>
                     </div>
                 </section>
 
-                <section id="depannage-faq">
-                    <h2>6. Dépannage / FAQ</h2>
-                    
-                    <h3>Question 1 : Je n'ai pas reçu d'email de GESMOUV, que faire ?</h3>
-                    <p>Réponse : Assurez-vous que votre mouvement a bien été initialisé par les services RH. Si c'est le cas et que vous n'avez toujours pas reçu d'email, contactez les services RH ou le support applicatif.</p>
+                <section id="responsable-hierarchique-support">
+                    <h3>3.2. Responsable Hiérarchique & Responsable d’un Service Support</h3>
+                    <p>Vous avez reçu un courriel automatique de l’application vous indiquant le mouvement d’un personnel dans l’entreprise. Votre rôle au sein de l’organisme peut vous amener à devoir réaliser plusieurs types d’actions.</p>
+                    <p>En ouvrant l’application par le lien présent dans le courriel reçu, vous arrivez sur un tableau de synthèse vous indiquant toutes les actions à réaliser, à contrôler et à éventuellement compléter. Il y a une ligne par mouvement (case rouge => il reste des actions, case verte => c’est terminé).</p>
+                    <img src="images/gesmouv3.png" alt="Tableau de synthèse des actions pour un responsable" class="screenshot">
 
-                    <h3>Question 2 : La case d'une action est rouge dans le tableau de synthèse, qu'est-ce que cela signifie ?</h3>
-                    <p>Réponse : Une case rouge indique qu'il reste des actions à réaliser, à compléter ou à contrôler pour le mouvement concerné.</p>
-                    
-                    <h3>Question 3 : Comment savoir si une information complémentaire est disponible pour une action ?</h3>
-                    <p>Réponse : Dans le détail des actions, une icône spécifique (souvent une case verte ou un symbole "+") à côté de l'action indique la présence d'informations complémentaires à consulter.</p>
+                    <h4 id="completer-actions">3.2.1. Compléter la description des actions</h4>
+                    <p>Compléter certaines actions peut être utile pour aider le personnel à réaliser celle-ci. Il est important de compléter la description des actions au plus tôt. (Exemple : pour le service informatique, vous avez la possibilité de renseigner la liste précise des matériels à restituer).</p>
+                    <p>En réalisant un clic sur une case de la colonne « Nb actions complétées » (colonne la plus à droite dans l'image ci-dessus, marquée "1" dans le document original), vous êtes redirigé vers la liste des « Actions à Compléter » du personnel concerné.</p>
+                    <img src="images/gesmouv4.png" alt="Liste des actions à compléter par un responsable" class="screenshot">
+                    <p>Pour renseigner des informations complémentaires sur une action, sélectionnez le symbole « + » (vert) de l’action concernée.</p>
+                    <img src="images/gesmouv5.png" alt="Boîte de dialogue pour modifier les données complémentaires" class="screenshot">
+                    <p>Après saisie dans la boite de dialogue, validez vos modifications par le bouton « Modifier ».</p>
 
+                    <h4 id="realisation-actions">3.2.2. Réalisation des actions</h4>
+                    <p>En tant que responsable hiérarchique ou responsable d’un service support, la réalisation de certaines actions peut être de votre responsabilité. En réalisant un clic sur une case de la colonne « Nb actions réalisées » (voir image gesmouv3.png), vous êtes redirigés vers la liste des « Actions à réaliser » pour cet agent.</p>
+                     <img src="images/gesmouv6.png" alt="Liste des actions à réaliser par un responsable" class="screenshot">
+                    <p>Les lignes sur fond « bleu » sont déjà réalisées. Validez les actions sous votre responsabilité en cochant "Action réalisée" ou "NC".</p>
+
+
+                    <h4 id="controle-actions">3.2.3. Contrôle des actions</h4>
+                    <p>En tant que responsable hiérarchique ou responsable d’un service support, vous êtes amené à contrôler que des actions ont bien été effectuées par l’agent ou un autre acteur.</p>
+                    <p>En réalisant un clic sur une case de la colonne « Nb actions contrôlées » (voir image gesmouv3.png), vous êtes redirigés vers la liste des « Actions à contrôler » pour cet agent.</p>
+                    <img src="images/gesmouv7.png" alt="Liste des actions à contrôler par un responsable" class="screenshot">
+                    <p>Les lignes sur fond « bleu » sont celles déjà réalisées. Cochez la case « Action contrôlée ». La date du contrôle et l’acteur du contrôle sont automatiquement renseignés.</p>
+                    <div class="note">
+                        <p>Si vous êtes à la fois responsable de l’action et de son contrôle, la validation du contrôle réalise les deux opérations simultanément.</p>
+                    </div>
+                </section>
+                
+                <section id="historique-versions">
+                    <h2>4. Historique des Versions du Manuel</h2>
+                    <ul>
+                        <li><strong>1.0 (26/11/2015):</strong> Création</li>
+                        <li><strong>2.0 (29/07/2016):</strong> Évolutions fonctionnelles V2</li>
+                        <li><strong>2.3 (04/04/2017):</strong> GESDEP devient GESMOUV et traite de tous les mouvements (départ et arrivée)</li>
+                        <li><strong>2.4 (25/08/2017):</strong> Évolutions liées à l’ANR et amélioration mail de sortie</li>
+                        <li><strong>2.6 (11/06/2018):</strong> Mise à jour copie écran</li>
+                    </ul>
                 </section>
 
                 <section id="support">
-                    <h2>7. Support et Contact</h2>
-                    <p>Si vous rencontrez des difficultés avec l'application GESMOUV ou si vous avez des questions qui ne sont pas couvertes par cette documentation, veuillez contacter :</p>
+                    <h2>5. Support et Contact</h2>
+                    <p>Si vous rencontrez des difficultés avec l'application GESMOUV ou si vous avez des questions qui ne sont pas couvertes par cette documentation, veuillez vous référer aux contacts habituels de support au sein de la DRSM IDF.</p>
+                    <p>Pour information, les personnes mentionnées dans le document original (V2.6 du 11/06/2018) étaient :</p>
                     <ul>
-                        <li><strong>Service RH :</strong> Pour les questions relatives à l'initialisation de votre mouvement.</li>
-                        <li><strong>Support Informatique local :</strong> Pour les problèmes techniques liés à l'application. (Contacts à préciser par la DRSM IDF)</li>
-                        <li><strong>MOA (Delphine MULLER-GOSSET selon le manuel) :</strong> Pour les questions fonctionnelles (contact à vérifier/actualiser par la DRSM IDF).</li>
+                        <li>Rédaction MOE : R.CLAVIER</li>
+                        <li>Validation MOA : Delphine MULLER-GOSSET</li>
                     </ul>
-                    <p>Pour faciliter la résolution de votre problème, veuillez fournir autant de détails que possible.</p>
+                     <p>Veuillez vérifier en interne pour les contacts de support actuels.</p>
                 </section>
 
                 <a href="../index.html" class="back-to-portal-link">
-                    <i class="fas fa-arrow-left mr-2" aria-hidden="true"></i> Retour au Portail des Applications
+                    <i class="fas fa-arrow-left mr-2"></i> Retour au Portail des Applications
                 </a>
             </main>
         </div>
@@ -285,7 +267,7 @@
     <footer class="bg-slate-700 text-slate-300 py-4 px-6 text-center mt-auto">
         <div class="container mx-auto">
             <p class="text-xs">&copy; <span id="currentYear"></span> DRSM IDF - Tous droits réservés.</p>
-            <p class="text-xs mt-1">Dernière mise à jour de cette documentation (basée sur Manuel Utilisateur V2.6) : 11/06/2018</p>
+            <p class="text-xs mt-1">Documentation basée sur le Manuel Utilisateur GESMOUV V2.6 du 11/06/2018.</p>
         </div>
     </footer>
 
@@ -308,24 +290,8 @@
                     });
                 }
             });
-
-            function onScroll() {
-                let currentSectionId = '';
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    const headerHeight = document.querySelector('header.bg-blue-700')?.offsetHeight || 0; 
-                    if (pageYOffset >= sectionTop - headerHeight - 20) { 
-                        currentSectionId = section.getAttribute('id');
-                    }
-                });
-
-                tocLinks.forEach(link => {
-                    link.classList.remove('font-semibold', 'text-blue-600');
-                    if (link.getAttribute('href') === `#${currentSectionId}`) {
-                        link.classList.add('font-semibold', 'text-blue-600');
-                    }
-                });
-            }
+            // Optionnel: Mettre à jour le lien actif dans la TOC au scroll
+            // function onScroll() { ... } 
             // window.addEventListener('scroll', onScroll);
             // onScroll(); 
         });
